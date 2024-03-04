@@ -215,8 +215,7 @@ let exec (p : Ast.Program.t) : unit =
      Replace this with the actual way to access the 'main' function or its equivalent in your AST. *)
   match Ast.Program.get_main p with  (* Placeholder for actual method to get the main function body *)
   | Some(main_func_body) ->
-      (* Assuming 'exec_stmts' is a function you've defined to execute a list of statements within a frame.
-         You'll need to implement this function based on your language semantics. *)
+      (* Assuming 'exec_stmts' executes the body*)
       ignore (exec_stmts main_func_body initial_frame)
   | None ->
       failwith "No main function found"
@@ -274,33 +273,39 @@ let rec exec (stm: Ast.Stm.t)(frame: Frame.t)(p : Ast.Program.t): Frame.t  =
     |S.Return e -> 
 
 (* expression *)
-and eval (frame : Frame.t) (e : E.t)(p : Ast.Program.t) : Value.t * Frame.t= *)
-(* ! end ! *)
- match e with
-  | E.Var x -> (Env.lookup sigma x, frame)
+(* This function evaluates an expression within a given frame and program context *)
+and eval (frame : Frame.t) (e : E.t) : Value.t * Frame.t =
+  match e with
+  | E.Var x -> (Frame.vlookup frame x, frame)
   | E.Num n -> (Value.V_Int n, frame)
-  | E.Bool n -> (Value.V_Bool n, frame)
-  | E.Str n -> (Value.V_Str n, frame)
-  (* recursive function what evaluates the expression with the specs given above  *)
-  | E.Binop (op, e, e') ->
-    let v, frame'  = eval frame e in
-    let v', frame'' = eval frame' e' in
-    (binop op v v', frame'')
-    (* assigns a value to veriable and adds it to the frame  *)
-  | E.Assign (x,e) -> 
-    let v, frame' = eval  frame e in 
-    let frame'' = Frame.update frame' x v in (v, frame'')
-(* returns the opposit of the value given  *)
-  | E.Not e  -> let v, frame' = eval frame e in (
-    match v with 
-    |Value.V_Bool b -> (Value.V_Bool(not b),frame')
-    | _ -> failwith "Type error "
-  )
-(* handles negatives *)
+  | E.Bool b -> (Value.V_Bool b, frame)
+  | E.Str s -> (Value.V_Str s, frame)
+  | E.Binop (op, e1, e2) ->
+      let v1, frame1 = eval frame e1 in
+      let v2, frame2 = eval frame1 e2 in
+      (binop op v1 v2, frame2)
+  | E.Assign (x, e) ->
+      let v, frame' = eval frame e in
+      let updated_frame = Frame.vdec frame' x v in
+      (v, updated_frame)
+  | E.Not e ->
+      let v, frame' = eval frame e in
+      (match v with
+       | Value.V_Bool b -> (Value.V_Bool (not b), frame')
+       | _ -> failwith "TypeError: Not operation requires a boolean")
   | E.Neg e ->
-    let  n, frame' = eval frame e in 
-    (match n with
-      | Value.V_Int num -> (Value.V_Int (-num) , frame'))
-  | Call of Id.t * t list
+      let v, frame' = eval frame e in
+      (match v with
+       | Value.V_Int n -> (Value.V_Int (-n), frame')
+       | _ -> failwith "TypeError: Neg operation requires an integer")
+  | E.Call (func_id, args) ->
+      let func_body, func_frame = (* retrieve function body and frame based on func_id *) in
+      let arg_values, new_frame = List.fold_left (fun (vals, frm) arg ->
+        let v, new_frm = eval frm arg in
+        (v :: vals, new_frm)
+      ) ([], frame) args in
+      let result_frame = (* execute function body with arg_values and func_frame *) in
+      (Value.V_None, result_frame)  (* Assuming functions return 'None' for now *)
+
 
  

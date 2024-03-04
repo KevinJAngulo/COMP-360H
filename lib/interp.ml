@@ -199,7 +199,7 @@ module Frame = struct
         try
           List.assoc x env
         with Not_found ->
-          lookup rest x (* Lookup in the outer environment *)
+          vlookup rest x (* Lookup in the outer environment *)
       end
 end
 
@@ -273,33 +273,42 @@ let rec exec (stm: Ast.Stm.t)(frame: Frame.t)(p : Ast.Program.t): Frame.t  =
     |S.Return e -> 
 
 (* expression *)
-and eval (frame : Frame.t) (e : E.t)(p : Ast.Program.t) : Value.t * Frame.t= *)
-(* ! end ! *)
- match e with
-  | E.Var x -> (Env.lookup sigma x, frame)
+(* This function evaluates an expression within a given frame and program context *)
+and eval (frame : Frame.t) (e : E.t) : Value.t * Frame.t =
+  match e with
+  | E.Var x -> (Frame.vlookup frame x, frame)
   | E.Num n -> (Value.V_Int n, frame)
-  | E.Bool n -> (Value.V_Bool n, frame)
-  | E.Str n -> (Value.V_Str n, frame)
-  (* recursive function what evaluates the expression with the specs given above  *)
-  | E.Binop (op, e, e') ->
-    let v, frame'  = eval frame e in
-    let v', frame'' = eval frame' e' in
-    (binop op v v', frame'')
-    (* assigns a value to veriable and adds it to the frame  *)
-  | E.Assign (x,e) -> 
-    let v, frame' = eval  frame e in 
-    let frame'' = Frame.update frame' x v in (v, frame'')
-(* returns the opposit of the value given  *)
-  | E.Not e  -> let v, frame' = eval frame e in (
-    match v with 
-    |Value.V_Bool b -> (Value.V_Bool(not b),frame')
-    | _ -> failwith "Type error "
-  )
-(* handles negatives *)
+  | E.Bool b -> (Value.V_Bool b, frame)
+  | E.Str s -> (Value.V_Str s, frame)
+  | E.Binop (op, e1, e2) ->
+      let v1, frame1 = eval frame e1 in
+      let v2, frame2 = eval frame1 e2 in
+      (binop op v1 v2, frame2)
+  | E.Assign (x, e) ->
+      let v, frame' = eval frame e in
+      let updated_frame = Frame.vdec frame' x v in
+      (v, updated_frame)
+  | E.Not e ->
+      let v, frame' = eval frame e in
+      (match v with
+       | Value.V_Bool b -> (Value.V_Bool (not b), frame')
+       | _ -> failwith "TypeError: Not operation requires a boolean")
   | E.Neg e ->
-    let  n, frame' = eval frame e in 
-    (match n with
-      | Value.V_Int num -> (Value.V_Int (-num) , frame'))
-  | Call of Id.t * t list
+      let v, frame' = eval frame e in
+      (match v with
+       | Value.V_Int n -> (Value.V_Int (-n), frame')
+       | _ -> failwith "TypeError: Neg operation requires an integer")
+  | E.Call (f, args) ->
+    let rec eval_args fs acc_frame = 
+      match fs with
+        | [] -> ([], acc_frame)
+        | a::as' -> 
+            let v, frame' = eval acc_frame a in
+            let vs, frame'' = eval_args as' frame' in
+            (v::vs, frame'') in
+    let arg_vals, new_frame = eval_args args frame in
+    (* Here we assume 'call_function' is a predefined function to handle function calls.
+        It should take the function name, the evaluated arguments, and the current frame. *)
+    call_function f arg_vals new_frame
 
  
