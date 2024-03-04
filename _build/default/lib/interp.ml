@@ -5,6 +5,7 @@
 
 module E = Ast.Expression
 module S = Ast.Stm
+module P = Ast.Program
 
 (* 'a IdentMap.t:  the type of maps from identifiers to 'a.
  *)
@@ -64,6 +65,8 @@ end
  * A client makes changes to the defaults by setting `in_channel`,
  * `out_channel`, and `show_prompts`.
  *)
+
+
 module Api = struct
 
   (* Raised when a function is invoked that is not in the API.
@@ -168,16 +171,123 @@ module Api = struct
     with
     | Not_found -> raise @@ ApiError f
 
+end
 
-end 
+module Frame = struct
+  (* The type of frames
+   *)
+  type t = 
+    | Env of Env.t list
+    | Value of Value.t
 
+  let vdec (frame : t) (x : Ast.Id.t) (v : Value.t) : t =
+    match frame with
+    | [] -> [[(x, v)]] (* Create a new environment with the variable binding *)
+    | env :: rest ->
+      if List.mem_assoc x env then
+        (* Variable already defined in the innermost environment *)
+        raise (MultipleDeclaration x)
+      else
+        (* Add the variable binding to the innermost environment *)
+        ((x, v) :: env) :: rest
+  
+  let rec vlookup (frame : t) (x : Ast.Id.t) : Value.t =
+    match frame with
+    | [] -> raise (UnboundVariable x)
+    | env :: rest ->
+      begin
+        try
+          List.assoc x env
+        with Not_found ->
+          lookup rest x (* Lookup in the outer environment *)
+      end
+end
 
-
-(* Initial empty frame *)
-type frame = Value.t Env.t  
 
 (* exec p :  execute the program p according to the operational semantics
  * provided as a handout.
  *)
- let exec (p : Ast.Program.t) : unit =
-  failwith "unimplemented";
+let exec (_ : Ast.Program.t) : unit =
+  (* let v, _ = eval (Num 7) empty in print_endline ( Value.to_string v) *)
+ failwith "Unimplemented:  exec" 
+(* expressions *)
+let binop (op : E.binop) (v : Value.t) (v' : Value.t) : Value.t  =
+  match (op, v, v') with 
+   | (E.Plus, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n + n') 
+   | (E.Minus, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n - n')
+   | (E.Times, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n * n')
+   | (E.Div, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n / n')
+   | (E.Mod, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n % n')
+   | (E.And, Value.V_Bool n, Value.V_Bool n') -> Value.V_Bool (n && n')
+   | (E.Mod, Value.V_Bool n, Value.V_Bool n') -> Value.V_Int (n || n')
+   | (E.Eq, Value.V_Int n, Value.V_Int n') -> Value.V_Bool (n == n')
+   | (E.Ne, Value.V_Int n, Value.V_Int n') -> Value.V_Bool (n != n')
+   | (E.Lt, Value.V_Int n, Value.V_Int n') -> Value.V_Bool (n < n')
+   | (E.Le, Value.V_Int n, Value.V_Int n') -> Value.V_Bool (n <= n')
+   | (E.Gt, Value.V_Int n, Value.V_Int n') -> Value.V_Bool (n > n')
+   | (E.Ge, Value.V_Int n, Value.V_Int n') -> Value.V_Bool (n >= n')
+
+(* statments *)
+let rec exec (stm: Ast.Stm.t)(frame: Frame.t)(p : Ast.Program.t): Frame.t  = 
+  match stm with 
+  (* if there is a skip the pgm atops and returns the current frame *)
+     | S.Skip s -> frame
+     | VarDec of (Id.t * Expression.t option) list
+
+     | Expr of Expression.t
+
+     | Block of t list
+
+     (* If of Expression.t*t*t *)
+     (* let evaluates the expression by calling eval *)
+     |S.If (e,s,s') ->  let frame', e' = eval ( frame,e ) in (
+      match e' with 
+      (* if the statment is true it evaluates the first stm otherwise it evaluates second statmet *)
+      | Value.V_Bool true -> let s , frame2 = exec s frame' p
+      | Value.V_Bool false -> let s' , frame2 = exec s' frame' p
+
+     )
+
+    (* | While of Expression.t*t *)
+    (* let evaluates the expression by calling eval *)
+    |S.While (e, s) -> let frame', e' = eval (frame, e) in (
+      match e' with 
+      (* evaluates if the condition is true and the body inclused block *)
+      |Value.V_Bool true -> exec (S.Block [stm; S.While (e, s)]) frame' p
+      (* returns the frame id the expression is false *)
+      |Value.V_Bool false -> frame
+    )
+    (* | Return of Expression.t option *)
+    |S.Return e -> 
+
+(* expression *)
+and eval (frame : Frame.t) (e : E.t)(p : Ast.Program.t) : Value.t * Frame.t= *)
+(* ! end ! *)
+ match e with
+  | E.Var x -> (Env.lookup sigma x, frame)
+  | E.Num n -> (Value.V_Int n, frame)
+  | E.Bool n -> (Value.V_Bool n, frame)
+  | E.Str n -> (Value.V_Str n, frame)
+  (* recursive function what evaluates the expression with the specs given above  *)
+  | E.Binop (op, e, e') ->
+    let v, frame'  = eval frame e in
+    let v', frame'' = eval frame' e' in
+    (binop op v v', frame'')
+    (* assigns a value to veriable and adds it to the frame  *)
+  | E.Assign (x,e) -> 
+    let v, frame' = eval  frame e in 
+    let frame'' = Frame.update frame' x v in (v, frame'')
+(* returns the opposit of the value given  *)
+  | E.Not e  -> let v, frame' = eval frame e in (
+    match v with 
+    |Value.V_Bool b -> (Value.V_Bool(not b),frame')
+    | _ -> failwith "Type error "
+  )
+(* handles negatives *)
+  | E.Neg e ->
+    let  n, frame' = eval frame e in 
+    (match n with
+      | Value.V_Int num -> (Value.V_Int (-num) , frame'))
+  | Call of Id.t * t list
+
+ 
