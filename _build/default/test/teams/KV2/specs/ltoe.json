@@ -1,0 +1,21 @@
+{
+    "file":     "ltoe.imp",
+    "input":    [ "30", "30" ],
+    "output":   [ "this is true" ]
+} 
+{
+    "file":     "ltoe.imp",
+    "input":    [ "40", "50" ],
+    "output":   ["this is true"]
+}
+{
+    "file":     "ltoe.imp",
+    "input":    [ "50", "40" ],
+    "output":   ["this is NOT true"]
+}
+// //should fail
+// {
+//     "file":     "ltoe.imp",
+//     "input":    [ "25", "50" ],
+//     "output":   [ "this is NOT true" ]
+// } 

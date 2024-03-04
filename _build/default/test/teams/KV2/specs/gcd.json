@@ -1,0 +1,34 @@
+{
+    "file":     "gcd.imp",
+    "input":    [ "60", "84" ],
+    "output":   [ "12" ]
+}
+{
+     "file":     "gcd.imp",
+     "input":    [ "4", "50" ],
+     "output":   [ "2" ]
+} 
+
+{
+    "file":     "gcd-effects.imp",
+    "input":    [
+        "20", "10"
+    ],
+    "output":   [
+        "10"
+    ]
+}
+{
+    "file":     "gcd-effects.imp",
+    "input":    [
+        "33", "4"
+    ],
+    "output":   [
+        "1"
+    ]
+}
+
+
+
+
+

@@ -1,0 +1,15 @@
+function main() {
+  var a ;
+  var b ;
+
+  a = prompt_int("Enter a: ") ;
+  b = prompt_int("Enter b: ") ;
+  
+  if a != b then {
+    print_int(a) ;
+  }
+
+  
+
+  return ;
+}

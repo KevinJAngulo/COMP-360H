@@ -1,0 +1,17 @@
+{
+    "file":     "and.imp",
+    "input":    [ "true", "false" ],
+    "output":   [ "false" ]
+} 
+{
+    "file":     "and.imp",
+    "input":    [ "true", "true" ],
+    "output":   [ "true" ]
+} 
+
+// //should fail
+// {
+//     "file":     "and.imp",
+//     "input":    [ "true", "true" ],
+//     "output":   [ "false" ]
+// } 

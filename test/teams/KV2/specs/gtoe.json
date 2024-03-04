@@ -1,0 +1,16 @@
+{
+    "file":     "gtoe.imp",
+    "input":    [ "30", "30" ],
+    "output":   [ "true" ]
+} 
+{
+    "file":     "gtoe.imp",
+    "input":    [ "40", "50" ],
+    "output":   ["false"]
+} 
+// //should fail
+// {
+//     "file":     "gtoe.imp",
+//     "input":    [ "40", "50" ],
+//     "output":   [ "40" ]
+// } 

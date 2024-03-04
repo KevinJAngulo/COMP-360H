@@ -1,0 +1,16 @@
+{
+    "file":     "lessthan.imp",
+    "input":    [ "30", "50" ],
+    "output":   [ "true" ]
+} 
+{
+    "file":     "lessthan.imp",
+    "input":    [ "40", "10" ],
+    "output":   ["false"]
+} 
+// //should fail
+// {
+//     "file":     "lessthan.imp",
+//     "input":    [ "10", "50" ],
+//     "output":   [ "50" ]
+// } 

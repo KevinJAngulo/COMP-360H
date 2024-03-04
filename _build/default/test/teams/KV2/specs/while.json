@@ -1,0 +1,10 @@
+{
+    "file":     "while.imp",
+    "input":    [ "3" ],
+    "output":   [ "3" ]
+} 
+{
+    "file":     "while.imp",
+    "input":    [ "1" ],
+    "output":   [ "1" ]
+} 

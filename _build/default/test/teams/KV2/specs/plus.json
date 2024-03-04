@@ -1,0 +1,16 @@
+{
+    "file":     "plus.imp",
+    "input":    [ "20", "56" ],
+    "output":   [ "76" ]
+} 
+{
+    "file":     "plus.imp",
+    "input":    [ "55", "56" ],
+    "output":   [ "111" ]
+} 
+// //should fail
+// {
+//     "file":     "plus.imp",
+//     "input":    [ "55", "56" ],
+//     "output":   [ "11" ]
+// } 

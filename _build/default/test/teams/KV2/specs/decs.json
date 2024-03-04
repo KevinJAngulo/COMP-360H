@@ -1,0 +1,19 @@
+{
+    "file" : "00decs.imp",
+    "input" : [],
+    "output" : []
+}
+
+{
+    "file" : "05decs.imp",
+    "input" : [],
+    "output" : ["5"]
+}
+
+{
+    "file" : "10decs.imp",
+    "input" : [],
+    "output" : ["5", "true"]
+}
+
+

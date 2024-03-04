@@ -1,0 +1,16 @@
+{
+    "file":     "mod.imp",
+    "input":    [ "25", "2" ],
+    "output":   [ "1" ]
+} 
+{
+    "file":     "mod.imp",
+    "input":    [ "22", "2" ],
+    "output":   [ "0" ]
+} 
+// //should fail
+// {
+//     "file":     "mod.imp",
+//     "input":    [ "30", "6" ],
+//     "output":   [ "5" ]
+// } 

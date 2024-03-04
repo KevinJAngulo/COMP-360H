@@ -1,0 +1,17 @@
+
+{
+    "file":     "neg.imp",
+    "input":    [ "10", "50" ],
+    "output":   [ "10" ]
+} 
+{
+    "file":     "neg.imp",
+    "input":    [ "10", "10" ],
+    "output":   []
+} 
+// // should fail
+// {
+//     "file":     "neg.imp",
+//     "input":    [ "10", "20" ],
+//     "output":   [ "20" ]
+// } 

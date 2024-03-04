@@ -1,0 +1,21 @@
+{
+    "file":     "sub.imp",
+    "input":    [ "16", "10" ],
+    "output":   [ "6" ]
+} 
+{
+    "file":     "sub.imp",
+    "input":    [ "100", "16" ],
+    "output":   [ "84" ]
+} 
+{
+    "file":     "sub.imp",
+    "input":    [ "10", "15" ],
+    "output":   [ "-5" ]
+} 
+// //should fail
+// {
+//     "file":     "sub.imp",
+//     "input":    [ "16", "10" ],
+//     "output":   [ "26" ]
+// } 

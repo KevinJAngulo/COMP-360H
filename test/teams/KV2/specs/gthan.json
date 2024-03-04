@@ -1,0 +1,18 @@
+{
+    "file":     "gthan.imp",
+    "input":    [ "30", "50" ],
+    "output":   [ "50" ]
+} 
+
+{
+    "file":     "gthan.imp",
+    "input":    [ "40", "10" ],
+    "output":   ["40"]
+} 
+
+// //should fail
+// {
+//     "file":     "gtthan.imp",
+//     "input":    [ "10", "50" ],
+//     "output":   [ "10" ]
+// } 

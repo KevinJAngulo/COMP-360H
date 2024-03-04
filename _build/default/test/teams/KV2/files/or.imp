@@ -1,0 +1,9 @@
+function main() {
+  bool a = false;
+  bool b= true ;
+
+   print_bool(a||b) ;
+
+
+  return ;
+}

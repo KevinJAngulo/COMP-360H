@@ -1,0 +1,17 @@
+
+{
+    "file":     "eq.imp",
+    "input":    [ "10", "10" ],
+    "output":   [ "true" ]
+} 
+{
+    "file":     "eq.imp",
+    "input":    [ "10", "20" ],
+    "output":   [ "false" ]
+} 
+// //Should fail
+// {
+//     "file":     "eq.imp",
+//     "input":    [ "10", "20" ],
+//     "output":   [ "true" ]
+// } 

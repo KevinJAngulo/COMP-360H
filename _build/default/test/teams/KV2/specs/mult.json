@@ -1,0 +1,16 @@
+{
+    "file":     "mult.imp",
+    "input":    [ "3", "7" ],
+    "output":   [ "21" ]
+} 
+{
+    "file":     "mult.imp",
+    "input":    [ "10", "5" ],
+    "output":   [ "50" ]
+} 
+// //should fail
+// {
+//     "file":     "mult.imp",
+//     "input":    [ "3", "7" ],
+//     "output":   [ "10" ]
+// } 

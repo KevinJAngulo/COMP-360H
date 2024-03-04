@@ -1,0 +1,16 @@
+{
+    "file":     "div.imp",
+    "input":    [ "21", "3" ],
+    "output":   [ "7" ]
+} 
+{
+    "file":     "div.imp",
+    "input":    [ "50", "5" ],
+    "output":   [ "10" ]
+} 
+// //should fail 
+// {
+//     "file":     "div.imp",
+//     "input":    [ "3", "3" ],
+//     "output":   [ "6" ]
+// } 
