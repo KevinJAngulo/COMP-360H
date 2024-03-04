@@ -240,40 +240,7 @@ let binop (op : E.binop) (v : Value.t) (v' : Value.t) : Value.t =
 
 
 (* statments *)
-let rec exec (stm: Ast.Stm.t)(frame: Frame.t)(p : Ast.Program.t): Frame.t  = 
-  match Stm with 
-  (* if there is a skip the pgm atops and returns the current frame *)
-     | S.Skip s -> frame
-     | VarDec of (Id.t * Expression.t option) list
-
-     | Expr of Expression.t
-
-     | Block of t list
-
-     (* If of Expression.t*t*t *)
-     (* let evaluates the expression by calling eval *)
-     |S.If (e,s,s') ->  let frame', e' = eval ( frame,e ) in (
-      match e' with 
-      (* if the statment is true it evaluates the first stm otherwise it evaluates second statmet *)
-      | Value.V_Bool true -> let s , frame2 = exec s frame' p
-      | Value.V_Bool false -> let s' , frame2 = exec s' frame' p
-
-     )
-
-    (* | While of Expression.t*t *)
-    (* let evaluates the expression by calling eval *)
-    |S.While (e, s) -> let frame', e' = eval (frame, e) in (
-      match e' with 
-      (* evaluates if the condition is true and the body inclused block *)
-      |Value.V_Bool true -> exec (S.Block [stm; S.While (e, s)]) frame' p
-      (* returns the frame id the expression is false *)
-      |Value.V_Bool false -> frame
-    )
-    (* | Return of Expression.t option *)
-    |S.Return e -> 
-
-(* expression *)
-and eval (frame : Frame.t) (e : E.t)(p : Ast.Program.t) : Value.t * Frame.t= *)
+let rec eval (frame : Frame.t) (e : E.t)(p : Ast.Program.t) : Value.t * Frame.t= 
 (* ! end ! *)
  match e with
   | E.Var x -> (Env.lookup sigma x, frame)
@@ -302,4 +269,41 @@ and eval (frame : Frame.t) (e : E.t)(p : Ast.Program.t) : Value.t * Frame.t= *)
       | Value.V_Int num -> (Value.V_Int (-num) , frame'))
   | Call of Id.t * t list
 
- 
+
+ and exec_stm (stm: Ast.Stm.t)(frame: Frame.t)(p : Ast.Program.t): Frame.t  = 
+  match Stm with 
+  (* if there is a skip the pgm atops and returns the current frame *)
+     | S.Skip s -> frame
+     | VarDec of (Id.t * Expression.t option) list
+
+     | Expr of Expression.t
+
+     | Block of t list
+
+     (* If of Expression.t*t*t *)
+     (* let evaluates the expression by calling eval *)
+     |S.If (e,s,s') ->  let frame', e' = eval ( frame,e ) in (
+      match e' with 
+      (* if the statment is true it evaluates the first stm otherwise it evaluates second statmet *)
+      | Value.V_Bool true -> let s , frame2 = exec_stm s frame' p
+      | Value.V_Bool false -> let s' , frame2 = exec_stm s' frame' p
+
+     )
+
+    (* | While of Expression.t*t *)
+    (* let evaluates the expression by calling eval *)
+    |S.While (e, s) -> let frame', e' = eval (frame, e) in (
+      match e' with 
+      (* evaluates if the condition is true and the body inclused block *)
+      |Value.V_Bool true -> exec_stm (S.Block [stm; S.While (e, s)]) frame' p
+      (* returns the frame id the expression is false *)
+      |Value.V_Bool false -> frame
+    )
+    (* | Return of Expression.t option *)
+    |S.Return e -> 
+
+(* expression *)
+and exec_stmList (sl : )(frame: Frame.t): Value.t = 
+  match sl with 
+  |[] -> frame
+  |s' :: sl' -> let frame' = exec s' frame in exec_stmList ss' frame'
