@@ -207,9 +207,20 @@ end
 (* exec p :  execute the program p according to the operational semantics
  * provided as a handout.
  *)
-let exec (_ : Ast.Program.t) : unit =
-  (* let v, _ = eval (Num 7) empty in print_endline ( Value.to_string v) *)
- failwith "Unimplemented:  exec" 
+(* exec : Execute the program starting with the 'main' function under an empty frame. *)
+let exec (p : Ast.Program.t) : unit =
+  let initial_frame = Frame.Env [] in  (* Start with an empty frame (no environments) *)
+  
+  (* Assuming 'p' has a field 'statements' containing the program body;
+     Replace this with the actual way to access the 'main' function or its equivalent in your AST. *)
+  match Ast.Program.get_main p with  (* Placeholder for actual method to get the main function body *)
+  | Some(main_func_body) ->
+      (* Assuming 'exec_stmts' is a function you've defined to execute a list of statements within a frame.
+         You'll need to implement this function based on your language semantics. *)
+      ignore (exec_stmts main_func_body initial_frame)
+  | None ->
+      failwith "No main function found"
+
 (* expressions *)
 let binop (op : E.binop) (v : Value.t) (v' : Value.t) : Value.t  =
   match (op, v, v') with 
