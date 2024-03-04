@@ -299,17 +299,6 @@ and eval (frame : Frame.t) (e : E.t)(p : Ast.Program.t) : Value.t * Frame.t= *)
        | Value.V_Int n -> (Value.V_Int (-n), frame')
        | _ -> failwith "TypeError: Neg operation requires an integer")
   | E.Call (f, args) ->
-    let rec eval_args fs acc_frame = 
-      match fs with
-        | [] -> ([], acc_frame)
-        | a::as' -> 
-            let v, frame' = eval acc_frame a in
-            let vs, frame'' = eval_args as' frame' in
-            (v::vs, frame'') in
-    let arg_vals, new_frame = eval_args args frame in
-    (* Here we assume 'call_function' is a predefined function to handle function calls.
-        It should take the function name, the evaluated arguments, and the current frame. *)
-    call_function f arg_vals new_frame
 
 
  and exec_stm (stm: Ast.Stm.t)(frame: Frame.t)(p : Ast.Program.t): Frame.t  = 
