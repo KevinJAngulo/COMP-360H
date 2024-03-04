@@ -215,28 +215,29 @@ let exec (p : Ast.Program.t) : unit =
      Replace this with the actual way to access the 'main' function or its equivalent in your AST. *)
   match Ast.Program.get_main p with  (* Placeholder for actual method to get the main function body *)
   | Some(main_func_body) ->
-      (* Assuming 'exec_stmts' is a function you've defined to execute a list of statements within a frame.
-         You'll need to implement this function based on your language semantics. *)
+      (* Assuming 'exec_stmts' executes the body*)
       ignore (exec_stmts main_func_body initial_frame)
   | None ->
       failwith "No main function found"
 
 (* expressions *)
-let binop (op : E.binop) (v : Value.t) (v' : Value.t) : Value.t  =
-  match (op, v, v') with 
-   | (E.Plus, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n + n') 
-   | (E.Minus, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n - n')
-   | (E.Times, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n * n')
-   | (E.Div, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n / n')
-   | (E.Mod, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n % n')
-   | (E.And, Value.V_Bool n, Value.V_Bool n') -> Value.V_Bool (n && n')
-   | (E.Mod, Value.V_Bool n, Value.V_Bool n') -> Value.V_Int (n || n')
-   | (E.Eq, Value.V_Int n, Value.V_Int n') -> Value.V_Bool (n == n')
-   | (E.Ne, Value.V_Int n, Value.V_Int n') -> Value.V_Bool (n != n')
-   | (E.Lt, Value.V_Int n, Value.V_Int n') -> Value.V_Bool (n < n')
-   | (E.Le, Value.V_Int n, Value.V_Int n') -> Value.V_Bool (n <= n')
-   | (E.Gt, Value.V_Int n, Value.V_Int n') -> Value.V_Bool (n > n')
-   | (E.Ge, Value.V_Int n, Value.V_Int n') -> Value.V_Bool (n >= n')
+let binop (op : E.binop) (v : Value.t) (v' : Value.t) : Value.t =
+  match (op, v, v') with
+  | (E.Plus, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n + n')
+  | (E.Minus, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n - n')
+  | (E.Times, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n * n')
+  | (E.Div, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n / n')
+  | (E.Mod, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n mod n')  (* Fixed mod operator for integers *)
+  | (E.And, Value.V_Bool b, Value.V_Bool b') -> Value.V_Bool (b && b')  (* Logical AND for booleans *)
+  | (E.Or, Value.V_Bool b, Value.V_Bool b') -> Value.V_Bool (b || b')   (* Logical OR for booleans, corrected *)
+  | (E.Eq, Value.V_Int n, Value.V_Int n') -> Value.V_Bool (n = n')      (* Equality check for integers *)
+  | (E.Ne, Value.V_Int n, Value.V_Int n') -> Value.V_Bool (n <> n')     (* Inequality check for integers *)
+  | (E.Lt, Value.V_Int n, Value.V_Int n') -> Value.V_Bool (n < n')      (* Less than for integers *)
+  | (E.Le, Value.V_Int n, Value.V_Int n') -> Value.V_Bool (n <= n')     (* Less than or equal for integers *)
+  | (E.Gt, Value.V_Int n, Value.V_Int n') -> Value.V_Bool (n > n')      (* Greater than for integers *)
+  | (E.Ge, Value.V_Int n, Value.V_Int n') -> Value.V_Bool (n >= n')     (* Greater than or equal for integers *)
+  | _ -> raise (TypeError "Invalid operands or operator for binary operation")  (* Handling invalid cases *)
+
 
 (* statments *)
 let rec exec (stm: Ast.Stm.t)(frame: Frame.t)(p : Ast.Program.t): Frame.t  = 
