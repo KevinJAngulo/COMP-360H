@@ -173,6 +173,37 @@ module Api = struct
 
 end
 
+module Frame = struct
+  (* The type of frames
+   *)
+  type t = 
+    | Env of Env.t list
+    | Value of Value.t
+
+  let vdec (frame : t) (x : Ast.Id.t) (v : Value.t) : t =
+    match frame with
+    | [] -> [[(x, v)]] (* Create a new environment with the variable binding *)
+    | env :: rest ->
+      if List.mem_assoc x env then
+        (* Variable already defined in the innermost environment *)
+        raise (MultipleDeclaration x)
+      else
+        (* Add the variable binding to the innermost environment *)
+        ((x, v) :: env) :: rest
+  
+  let rec vlookup (frame : t) (x : Ast.Id.t) : Value.t =
+    match frame with
+    | [] -> raise (UnboundVariable x)
+    | env :: rest ->
+      begin
+        try
+          List.assoc x env
+        with Not_found ->
+          lookup rest x (* Lookup in the outer environment *)
+      end
+end
+
+
 (* exec p :  execute the program p according to the operational semantics
  * provided as a handout.
  *)
