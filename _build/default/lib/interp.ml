@@ -229,7 +229,7 @@ let binop (op : E.binop) (v : Value.t) (v' : Value.t) : Value.t  =
 
 (* statments *)
 let rec exec (stm: Ast.Stm.t)(frame: Frame.t)(p : Ast.Program.t): Frame.t  = 
-  match stm with 
+  match Stm with 
   (* if there is a skip the pgm atops and returns the current frame *)
      | S.Skip s -> frame
      | VarDec of (Id.t * Expression.t option) list
