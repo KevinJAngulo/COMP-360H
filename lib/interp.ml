@@ -208,20 +208,13 @@ end
  * provided as a handout.
  *)
 let exec (p : Ast.Program.t) : unit =
-match p with
-| Ast.Program.Pgm fundefs ->
-    let main_func_opt = List.find_opt (fun (Ast.Program.FunDef (name, _, _)) -> name = "main") fundefs in
-    begin
-      match main_func_opt with
-      | Some(Ast.Program.FunDef (_, params, body)) ->
-          (* Now execute the main function's body. 
-              You will need to implement or use an existing function to execute the body.
-              For example, this could involve setting up a new frame and then evaluating each statement. *)
-          ()
-      | None -> raise (UndefinedFunction "main")
-    end
-
-
+  match p with
+  | P.Id -> "main" 
+    let init_frame = Frame.Env [] in  
+      exec_stmList (sl : Ast.Stm.t list) (init_frame : Frame.t) (p : Ast.Program.t) : Frame.t =
+        List.fold_left (fun fr s -> exec_stm s fr p) frame sl
+  | None -> raise (UndefinedFunction "main")
+  
 
 (* expressions *)
 let binop (op : E.binop) (v : Value.t) (v' : Value.t) : Value.t =
