@@ -178,7 +178,7 @@ module Frame = struct
   type t = 
     | Env of env list
     | Value of Value.t
-    | Return of Value.t  (* Add this variant to handle return values *)
+    | Return of Value.t 
 
   let vdec (frame : t) (x : Ast.Id.t) (v : Value.t) : t =
     match frame with
@@ -200,7 +200,7 @@ module Frame = struct
     | _ -> failwith "Frame.vlookup applied to a non-environment frame"
   let return (frame : t) (v : Value.t) : t =
     match frame with
-    | Env _ -> Return v  (* Since 'envs' is not used, replace it with '_' *)
+    | Env _ -> Return v 
     | _ -> failwith "Frame.return applied to a non-environment frame"
   end
 
@@ -211,7 +211,7 @@ let binop (op : E.binop) (v : Value.t) (v' : Value.t) : Value.t =
   | (E.Minus, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n - n')
   | (E.Times, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n * n')
   | (E.Div, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n / n')
-  | (E.Mod, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n mod n')  (* Fixed mod operator for integers *)
+  | (E.Mod, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n mod n')  (* Mod operator for integers *)
   | (E.And, Value.V_Bool b, Value.V_Bool b') -> Value.V_Bool (b && b')  (* Logical AND for booleans *)
   | (E.Or, Value.V_Bool b, Value.V_Bool b') -> Value.V_Bool (b || b')   (* Logical OR for booleans, corrected *)
   | (E.Eq, Value.V_Int n, Value.V_Int n') -> Value.V_Bool (n = n')      (* Equality check for integers *)
