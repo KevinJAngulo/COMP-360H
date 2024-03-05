@@ -1,9 +1,10 @@
-# dune build
+# dune test
 # OCAMLPARAM: unset
 # Shared cache: disabled
-# Shared cache location: /Users/valerycorral/.cache/dune/db
-# Workspace root: /Users/valerycorral/COMP-360H
-# Auto-detected concurrency: 4
+# Shared cache location: /Users/kevinj_angulo/.cache/dune/db
+# Workspace root: "/Users/kevinj_angulo/Documents/Comp360H/Assignment
+# 1/COMP-360H"
+# Auto-detected concurrency: 8
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -13,19 +14,19 @@
 #  ; build_dir = In_build_dir "default"
 #  ; installed_env =
 #      map
-#        { "INSIDE_DUNE" : "/Users/valerycorral/COMP-360H/_build/default"
+#        { "INSIDE_DUNE" :
+#            "/Users/kevinj_angulo/Documents/Comp360H/Assignment 1/COMP-360H/_build/default"
 #        ; "OCAML_COLOR" : "always"
 #        ; "OPAMCOLOR" : "always"
 #        }
 #  ; instrument_with = []
 #  }
-$ /Users/valerycorral/.opam/default/bin/ocamlc.opt -config > /var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/dune_d97086_output
-$ (cd _build/.sandbox/70fa9b2e4d74690bb117d3c8ca8927b9/default && .ppx/0bb5094b13567c3c4e1ee33245b80e63/ppx.exe --cookie 'library-name="imp"' -o lib/interp.pp.ml --impl lib/interp.ml -corrected-suffix .ppx-corrected -diff-cmd - -dump-ast)
-$ (cd _build/default && /Users/valerycorral/.opam/default/bin/ocamldep.opt -modules -impl lib/interp.pp.ml) > _build/default/lib/.imp.objs/imp__Interp.impl.d
-$ (cd _build/default && /Users/valerycorral/.opam/default/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -I lib/.imp.objs/byte -I /Users/valerycorral/.opam/default/lib/ppx_deriving/runtime -I /Users/valerycorral/.opam/default/lib/result -no-alias-deps -opaque -open Imp -o lib/.imp.objs/byte/imp__Interp.cmo -c -impl lib/interp.pp.ml)
-> File "lib/interp.ml", line 204, characters 6-8:
-> 204 |     | [] -> [[(x, v)]] (* Create a new environment with the variable binding *)
->             ^^
-> Error: This variant pattern is expected to have type t
->        There is no constructor [] within type t
+$ /Users/kevinj_angulo/.opam/5.1.1/bin/ocamlc.opt -config > /var/folders/8q/8kg6dnyj0317_y7lhxbzkpdh0000gn/T/dune_31e0ae_output
+$ (cd _build/.sandbox/241dd504e1ee62c1d4b325378c7f6f6a/default && .ppx/0bb5094b13567c3c4e1ee33245b80e63/ppx.exe --cookie 'library-name="imp"' -o lib/interp.pp.ml --impl lib/interp.ml -corrected-suffix .ppx-corrected -diff-cmd - -dump-ast)
+$ (cd _build/default && /Users/kevinj_angulo/.opam/5.1.1/bin/ocamldep.opt -modules -impl lib/interp.pp.ml) > _build/default/lib/.imp.objs/imp__Interp.impl.d
+$ (cd _build/default && /Users/kevinj_angulo/.opam/5.1.1/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -I lib/.imp.objs/byte -I /Users/kevinj_angulo/.opam/5.1.1/lib/ppx_deriving/runtime -I /Users/kevinj_angulo/.opam/5.1.1/lib/result -no-alias-deps -opaque -open Imp -o lib/.imp.objs/byte/imp__Interp.cmo -c -impl lib/interp.pp.ml)
+> File "lib/interp.ml", line 259, characters 42-46:
+> 259 |     match List.find_opt (fun func -> func.name = f) p.functions with
+>                                                 ^^^^
+> Error: Unbound record field name
 [2]

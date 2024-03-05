@@ -65,26 +65,7 @@ end
  * A client makes changes to the defaults by setting `in_channel`,
  * `out_channel`, and `show_prompts`.
  *)
-module Env = struct
-  (* The type of environments.
-   *)
-  type t = Value.t IdentMap.t
 
-  (*  lookup σ x = σ(x).
-   *)
-  let lookup (sigma : t) (x : Ast.Id.t) : Value.t =
-    IdentMap.find x sigma
-
-  (*  update σ x v = σ{x → v}.
-   *)
-  let update (sigma : t) (x : Ast.Id.t) (v : Value.t) : t =
-    IdentMap.add x v sigma
-
-  (*  empty = σ, where dom σ = ∅.
-   *)
-  let empty : t = IdentMap.empty
-
-end
 
 module Api = struct
 
@@ -193,51 +174,38 @@ module Api = struct
 end
 
 module Frame = struct
-  (* The type of frames
-   *)
+  (* Assuming 'env.t' is actually a list of bindings, e.g., '(Ast.Id.t * Value.t) list'.
+     If 'env.t' is not correct, replace with the actual type of individual environments. *)
+  type env = (Ast.Id.t * Value.t) list
   type t = 
-    | Env of Env.t list
+    | Env of env list
     | Value of Value.t
 
   let vdec (frame : t) (x : Ast.Id.t) (v : Value.t) : t =
     match frame with
-    | [] -> [[(x, v)]] (* Create a new environment with the variable binding *)
-    | env :: rest ->
+    | Env [] -> Env [ [(x, v)] ]  (* Create a new environment with the variable binding if none exists *)
+    | Env (env :: rest) ->
       if List.mem_assoc x env then
         (* Variable already defined in the innermost environment *)
         raise (MultipleDeclaration x)
       else
         (* Add the variable binding to the innermost environment *)
-        ((x, v) :: env) :: rest
-  
+        Env (( (x, v) :: env) :: rest)
+    | _ -> failwith "Frame.vdec applied to a non-environment frame"
+
   let rec vlookup (frame : t) (x : Ast.Id.t) : Value.t =
     match frame with
-    | [] -> raise (UnboundVariable x)
-    | env :: rest ->
+    | Env [] -> raise (UnboundVariable x)
+    | Env (env :: rest) ->
       begin
-        try
-          List.assoc x env
-        with Not_found ->
-          vlookup rest x (* Lookup in the outer environment *)
+        try List.assoc x env
+        with Not_found -> vlookup (Env rest) x
       end
+    | _ -> failwith "Frame.vlookup applied to a non-environment frame"
 end
 
 
-(* exec p :  execute the program p according to the operational semantics
- * provided as a handout.
- *)
-(* exec : Execute the program starting with the 'main' function under an empty frame. *)
-let exec (p : Ast.Program.t) : unit =
-  let initial_frame = Frame.Env [] in  (* Start with an empty frame (no environments) *)
-  
-  (* Assuming 'p' has a field 'statements' containing the program body;
-     Replace this with the actual way to access the 'main' function or its equivalent in your AST. *)
-  match Ast.Program.get_main p with  (* Placeholder for actual method to get the main function body *)
-  | Some(main_func_body) ->
-      (* Assuming 'exec_stmts' executes the body*)
-      ignore (exec_stmts main_func_body initial_frame)
-  | None ->
-      failwith "No main function found"
+
 
 (* expressions *)
 let binop (op : E.binop) (v : Value.t) (v' : Value.t) : Value.t =
@@ -283,15 +251,9 @@ let rec eval (frame : Frame.t) (e : E.t)(p : Ast.Program.t) : Value.t * Frame.t 
        | Value.V_Int n -> (Value.V_Int (-n), frame')
        | _ -> failwith "TypeError: Neg operation requires an integer")
   | E.Call (f, args) ->
-    match List.find_opt (fun (name, _, _) -> name = f) p.Ast.Program.functions with
-      | Some (_, param_names, body) ->
-          let evaluated_args, new_frame = List.fold_right (fun arg (evaluated, fr) ->
-              let arg_val, new_fr = eval fr arg p in
-              (arg_val :: evaluated, new_fr)) args ([], frame) in
-          let frame_with_args = List.fold_left2 (fun fr param_name arg_val ->
-              Frame.vdec fr param_name arg_val) new_frame param_names evaluated_args in
-          exec_function body frame_with_args p  (* Assuming exec_function handles the execution of function bodies *)
-      | None -> failwith ("UndefinedFunction: " ^ f)
+      let v, frame' = eval frame e p in 
+        (v, Frame.vlookup )
+
 
 and exec_stm (stm : Ast.Stm.t) (frame : Frame.t) (p : Ast.Program.t) : Frame.t =
   match stm with
@@ -326,7 +288,7 @@ and exec_stm (stm : Ast.Stm.t) (frame : Frame.t) (p : Ast.Program.t) : Frame.t =
         let v = match opt_e with
           | None -> Value.V_None
           | Some e -> fst (eval frame e p)
-        in Frame.return frame v  (* Implement Frame.return based on your framework if necessary *)
+        in Frame.return frame v  
 
 
 
