@@ -21,10 +21,14 @@
 #        }
 #  ; instrument_with = []
 #  }
-$ /Users/kevinj_angulo/.opam/5.1.1/bin/ocamlc.opt -config > /var/folders/8q/8kg6dnyj0317_y7lhxbzkpdh0000gn/T/dune_46f931_output
-$ (cd _build/.sandbox/36c400b4314941ab16856d8f9ace2d1a/default && .ppx/0bb5094b13567c3c4e1ee33245b80e63/ppx.exe --cookie 'library-name="imp"' -o lib/interp.pp.ml --impl lib/interp.ml -corrected-suffix .ppx-corrected -diff-cmd - -dump-ast)
-> File "lib/interp.ml", line 247, characters 14-16:
-> 247 |      | VarDec of (Id.t * Expression.t option) list
->                     ^^
-> Error: Syntax error
+$ /Users/kevinj_angulo/.opam/5.1.1/bin/ocamlc.opt -config > /var/folders/8q/8kg6dnyj0317_y7lhxbzkpdh0000gn/T/dune_b34161_output
+$ (cd _build/.sandbox/f18a5f5f94028abdb93177c50736d359/default && .ppx/0bb5094b13567c3c4e1ee33245b80e63/ppx.exe --cookie 'library-name="imp"' -o lib/interp.pp.ml --impl lib/interp.ml -corrected-suffix .ppx-corrected -diff-cmd - -dump-ast)
+> File "lib/interp.ml", line 180, characters 16-17:
+> 180 |     | Env of env.t list
+>                       ^
+> Error: Syntax error: 'end' expected
+> File "lib/interp.ml", line 176, characters 15-21:
+> 176 | module Frame = struct
+>                      ^^^^^^
+>   This 'struct' might be unmatched
 [1]

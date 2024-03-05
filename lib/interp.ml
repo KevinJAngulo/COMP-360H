@@ -177,7 +177,7 @@ module Frame = struct
   (* The type of frames
    *)
   type t = 
-    | Env of Env.t list
+    | Env of env.t list
     | Value of Value.t
 
   let vdec (frame : t) (x : Ast.Id.t) (v : Value.t) : t =
@@ -240,68 +240,77 @@ let binop (op : E.binop) (v : Value.t) (v' : Value.t) : Value.t =
 
 
 (* statments *)
-let rec eval (frame : Frame.t) (e : E.t)(p : Ast.Program.t) : Value.t * Frame.t= *)
-(* ! end ! *)
- match e with
-  | E.Var x -> (Env.lookup sigma x, frame)
+let rec eval (frame : Frame.t) (e : E.t)(p : Ast.Program.t) : Value.t * Frame.t =
+  match e with
+  | E.Var x -> (Frame.vlookup frame x, frame)
   | E.Num n -> (Value.V_Int n, frame)
   | E.Bool b -> (Value.V_Bool b, frame)
   | E.Str s -> (Value.V_Str s, frame)
   | E.Binop (op, e1, e2) ->
-      let v1, frame1 = eval frame e1 in
-      let v2, frame2 = eval frame1 e2 in
+      let v1, frame1 = eval frame e1 p in
+      let v2, frame2 = eval frame1 e2 p in
       (binop op v1 v2, frame2)
   | E.Assign (x, e) ->
-      let v, frame' = eval frame e in
-      let updated_frame = Frame.vdec frame' x v in
-      (v, updated_frame)
+      let v, frame' = eval frame e p in
+      (v, Frame.vdec frame' x v)
   | E.Not e ->
-      let v, frame' = eval frame e in
+      let v, frame' = eval frame e p in
       (match v with
        | Value.V_Bool b -> (Value.V_Bool (not b), frame')
        | _ -> failwith "TypeError: Not operation requires a boolean")
   | E.Neg e ->
-      let v, frame' = eval frame e in
+      let v, frame' = eval frame e p in
       (match v with
        | Value.V_Int n -> (Value.V_Int (-n), frame')
        | _ -> failwith "TypeError: Neg operation requires an integer")
   | E.Call (f, args) ->
+    match List.find_opt (fun (name, _, _) -> name = f) p.Ast.Program.functions with
+      | Some (_, param_names, body) ->
+          let evaluated_args, new_frame = List.fold_right (fun arg (evaluated, fr) ->
+              let arg_val, new_fr = eval fr arg p in
+              (arg_val :: evaluated, new_fr)) args ([], frame) in
+          let frame_with_args = List.fold_left2 (fun fr param_name arg_val ->
+              Frame.vdec fr param_name arg_val) new_frame param_names evaluated_args in
+          exec_function body frame_with_args p  (* Assuming exec_function handles the execution of function bodies *)
+      | None -> failwith ("UndefinedFunction: " ^ f)
+
+and exec_stm (stm : Ast.Stm.t) (frame : Frame.t) (p : Ast.Program.t) : Frame.t =
+  match stm with
+    | S.Skip -> frame
+    | S.VarDec decls ->
+        List.fold_left (fun fr (x, opt_e) ->
+          match opt_e with
+          | None -> Frame.vdec fr x Value.V_Undefined
+          | Some e ->
+              let v, fr' = eval fr e p in
+              Frame.vdec fr' x v) frame decls
+    | S.Expr e ->
+        let _, frame' = eval frame e p in
+        frame'
+    | S.Block stms ->
+        List.fold_left (fun fr s -> exec_stm s fr p) frame stms
+    | S.If (e, s1, s2) ->
+        let v, frame' = eval frame e p in
+        (match v with
+        | Value.V_Bool true -> exec_stm s1 frame' p
+        | Value.V_Bool false -> exec_stm s2 frame' p
+        | _ -> failwith "TypeError: If condition is not boolean")
+    | S.While (e, s) ->
+        let rec loop fr =
+          let v, fr' = eval fr e p in
+          match v with
+          | Value.V_Bool true -> loop (exec_stm s fr' p)
+          | Value.V_Bool false -> fr'
+          | _ -> failwith "TypeError: While condition is not boolean"
+        in loop frame
+    | S.Return opt_e ->
+        let v = match opt_e with
+          | None -> Value.V_None
+          | Some e -> fst (eval frame e p)
+        in Frame.return frame v  (* Implement Frame.return based on your framework if necessary *)
 
 
- and exec_stm (stm: Ast.Stm.t)(frame: Frame.t)(p : Ast.Program.t): Frame.t  = 
-  match Stm with 
-  (* if there is a skip the pgm atops and returns the current frame *)
-     | S.Skip s -> frame
-     | VarDec of (Id.t * Expression.t option) list
-
-     | Expr of Expression.t
-
-     | Block of t list
-
-     (* If of Expression.t*t*t *)
-     (* let evaluates the expression by calling eval *)
-     |S.If (e,s,s') ->  let frame', e' = eval ( frame,e ) in (
-      match e' with 
-      (* if the statment is true it evaluates the first stm otherwise it evaluates second statmet *)
-      | Value.V_Bool true -> let s , frame2 = exec_stm s frame' p
-      | Value.V_Bool false -> let s' , frame2 = exec_stm s' frame' p
-
-     )
-
-    (* | While of Expression.t*t *)
-    (* let evaluates the expression by calling eval *)
-    |S.While (e, s) -> let frame', e' = eval (frame, e) in (
-      match e' with 
-      (* evaluates if the condition is true and the body inclused block *)
-      |Value.V_Bool true -> exec_stm (S.Block [stm; S.While (e, s)]) frame' p
-      (* returns the frame id the expression is false *)
-      |Value.V_Bool false -> frame
-    )
-    (* | Return of Expression.t option *)
-    |S.Return e -> 
 
 (* expression *)
-and exec_stmList (sl : )(frame: Frame.t): Value.t = 
-  match sl with 
-  |[] -> frame
-  |s' :: sl' -> let frame' = exec s' frame in exec_stmList ss' frame'
+and exec_stmList (sl : Ast.Stm.t list) (frame : Frame.t) (p : Ast.Program.t) : Frame.t =
+  List.fold_left (fun fr s -> exec_stm s fr p) frame sl
