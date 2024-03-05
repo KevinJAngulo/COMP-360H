@@ -38,112 +38,123 @@
  *
  *)
 
-open OUnit2
+ open OUnit2
 
-module YJ = Yojson.Basic
-module YJU = YJ.Util
-
-(* Directory in which to find test specifications.
- *)
-let specs_dir = "specs"
-
-(* Directory in which to find test code.
- *)
-let files_dir = "files"
-
-(* Directory in which to find team test directories.
- *)
-let interp_tests_dir = "teams"
-
-(* make_test_from_json_spec fd sp = tf, where tf is a a test defined by sp as
- * described above.  `fd` is the directory in which to find program files.
- *
- * Note that what I call a "test" has type `OUnit2.test_fun`.
- *)
-let make_test_from_json_spec 
-    (files_dir : string) (spec : YJ.t) : test_fun = fun tc ->
-  (* Get the code to be tested.
-   *)
-  let test_file = 
-    Filename.concat files_dir (spec |> YJU.member "file" |> YJU.to_string) in
-  let test_code = In_channel.with_open_text test_file (
-    fun ic ->
-      let lexbuf = Lexing.from_channel ic in
-      Imp.Parser.terminated_pgm Imp.Lexer.read_token lexbuf
-  ) in
-
-  (* Set the API input channel to read from the input in the test
-   * specification.
-   *)
-  let input : string list = 
-    spec |> YJU.member "input" |> YJU.to_list |> YJU.filter_string in
-  let () = 
-    Imp.Interp.Api.in_channel := 
-      Scanf.Scanning.from_string (String.concat " " input) in
-
-  (* Get the expected output.
-   *)
-  let expected : string list =
-    spec |> YJU.member "output" |> YJU.to_list |> YJU.filter_string in
-
-  (* Execute the test code, sending output to a file, then reading that output
-   * back into `actual`.  This would be so much nicer if I could just set the
-   * API output channel to a buffer!
-   *)
-  let (tmpfile, oc) = bracket_tmpfile tc in
-  let () =
-    Imp.Interp.Api.out_channel := oc in
-  let () = Imp.Interp.Api.show_prompts := false in
-  let () = Imp.Interp.exec test_code in
-  let () = Out_channel.close oc in
-  let actual : string list =
-    In_channel.with_open_text tmpfile In_channel.input_lines in
-
-  assert_equal ~printer:(String.concat " ") expected actual
-
-(* make_suite_from_specs sd fd f = ts, where ts is a test suite with name
- * `f`, where the tests in ts are specified by the specs in `sd`/`f` and
- * program files are found in `fd`.
- *
- * Note that what I call a "test suite" has type OUnit2.test.
- *)
-let make_suite_from_specs 
-    (specs_dir : string) (files_dir : string) (f : string) : test =
-  let specs = Filename.concat specs_dir f |> YJ.seq_from_file |> List.of_seq in
-
-  f >::: 
-    List.mapi 
-      (fun i s -> Int.to_string i >:: make_test_from_json_spec files_dir s) 
-      specs
-
-let () =
-  let show_and_run s =
-    match s with
-    | OUnitTest.TestLabel (name, _) ->
-      print_endline @@ "=====" ^ name  ^ "=====" ;
-      run_test_tt_main s ;
-      print_endline ""
-    | _ ->
-      run_test_tt_main s
-  in
-
-  let team_tests d =
-    print_endline "========================================" ;
-    print_endline d ;
-    print_endline "========================================" ;
-    print_endline "" ;
-    let team_specs_dir = 
-      Filename.concat (Filename.concat interp_tests_dir d) specs_dir in
-    let team_files_dir =
-      Filename.concat (Filename.concat interp_tests_dir d) files_dir in
-    let spec_files = 
-      Sys.readdir team_specs_dir |> Array.to_list in
-    let suites = List.map (make_suite_from_specs team_specs_dir team_files_dir) spec_files in
-    List.iter show_and_run suites
-  in
-
-  let team_dirs : string list =
-    Sys.readdir interp_tests_dir |> Array.to_list in
-
-  List.iter team_tests team_dirs
-
+ module YJ = Yojson.Basic
+ module YJU = YJ.Util
+ 
+ (* Directory in which to find test specifications.
+  *)
+ let specs_dir = "specs"
+ 
+ (* Directory in which to find test code.
+  *)
+ let files_dir = "files"
+ 
+ (* Directory in which to find team test directories.
+  *)
+ let interp_tests_dir = "teams"
+ 
+ (* make_test_from_json_spec fd sp = tf, where tf is a a test defined by sp as
+  * described above.  `fd` is the directory in which to find program files.
+  *
+  * Note that what I call a "test" has type `OUnit2.test_fun`.
+  *)
+ let make_test_from_json_spec 
+     (files_dir : string) (spec : YJ.t) : test_fun = fun tc ->
+   (* Get the code to be tested.
+    *)
+   let test_file = 
+     Filename.concat files_dir (spec |> YJU.member "file" |> YJU.to_string) in
+   let test_code = In_channel.with_open_text test_file (
+     fun ic ->
+       let lexbuf = Lexing.from_channel ic in
+       Imp.Parser.terminated_pgm Imp.Lexer.read_token lexbuf
+   ) in
+ 
+   (* Set the API input channel to read from the input in the test
+    * specification.
+    *)
+   let input : string list = 
+     spec |> YJU.member "input" |> YJU.to_list |> YJU.filter_string in
+   let () = 
+     Imp.Interp.Api.in_channel := 
+       Scanf.Scanning.from_string (String.concat " " input) in
+ 
+   (* Get the expected output.
+    *)
+   let expected : string list =
+     spec |> YJU.member "output" |> YJU.to_list |> YJU.filter_string in
+ 
+   (* Execute the test code, sending output to a file, then reading that output
+    * back into `actual`.  This would be so much nicer if I could just set the
+    * API output channel to a buffer!
+    *)
+   let (tmpfile, oc) = bracket_tmpfile tc in
+   let () =
+     Imp.Interp.Api.out_channel := oc in
+   let () = Imp.Interp.Api.show_prompts := false in
+   let () = Imp.Interp.exec test_code in
+   let () = Out_channel.close oc in
+   let actual : string list =
+     In_channel.with_open_text tmpfile In_channel.input_lines in
+ 
+   assert_equal ~ctxt:tc ~printer:(String.concat " ") expected actual
+ 
+ (* make_suite_from_specs sd fd f = ts, where ts is a test suite with name
+  * `f`, where the tests in ts are specified by the specs in `sd`/`f` and
+  * program files are found in `fd`.
+  *
+  * Note that what I call a "test suite" has type OUnit2.test.
+  *)
+ let make_suite_from_specs 
+     (specs_dir : string) (files_dir : string) (f : string) : test =
+   let specs = Filename.concat specs_dir f |> YJ.seq_from_file |> List.of_seq in
+ 
+   f >::: 
+     List.mapi 
+       (fun i s -> Int.to_string i >:: make_test_from_json_spec files_dir s) 
+       specs
+ 
+ (*  is_dir f = true,  f is the name of a directory
+  *             false, o/w.
+  *)
+ let is_dir (f : string) : bool =
+   match Unix.stat f with
+   | {st_kind = S_DIR; _} -> true
+   | _ -> false
+ 
+ let () =
+ 
+   (* team_tests d = a test suite named `d` that consists of all tests under
+    * the team directory `d`.  Only read tests from files with extension
+    * .json.
+    *)
+   let team_tests d : test =
+     let team_specs_dir = 
+       Filename.concat d specs_dir in
+     let team_files_dir =
+       Filename.concat d files_dir in
+     let spec_files = 
+       List.filter (fun f -> Filename.check_suffix f "json")
+         (Sys.readdir team_specs_dir |> Array.to_list) in
+     let suites : test list = 
+       List.map 
+         (make_suite_from_specs team_specs_dir team_files_dir) spec_files in
+     d >::: suites
+   in
+ 
+   (* team_dirs = all directories under the `interp_tests_dir` directory.
+    *)
+   let team_dirs : string list =
+     Sys.readdir interp_tests_dir 
+     |> Array.to_list 
+     |> List.map (Filename.concat interp_tests_dir)
+     |> List.filter is_dir in
+ 
+   (*  all_suites = all test suites under all team directories combined into
+    *  a single test suite named "all tests"
+    *)
+   let all_suites : test = "all tests" >::: List.map team_tests team_dirs in
+ 
+   run_test_tt_main all_suites

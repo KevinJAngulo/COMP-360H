@@ -174,49 +174,35 @@ module Api = struct
 end
 
 module Frame = struct
-  (* Assuming 'env.t' is actually a list of bindings, e.g., '(Ast.Id.t * Value.t) list'.
-     If 'env.t' is not correct, replace with the actual type of individual environments. *)
   type env = (Ast.Id.t * Value.t) list
   type t = 
     | Env of env list
     | Value of Value.t
+    | Return of Value.t  (* Add this variant to handle return values *)
 
   let vdec (frame : t) (x : Ast.Id.t) (v : Value.t) : t =
     match frame with
-    | Env [] -> Env [ [(x, v)] ]  (* Create a new environment with the variable binding if none exists *)
+    | Env [] -> Env [ [(x, v)] ]
     | Env (env :: rest) ->
-      if List.mem_assoc x env then
-        (* Variable already defined in the innermost environment *)
-        raise (MultipleDeclaration x)
-      else
-        (* Add the variable binding to the innermost environment *)
-        Env (( (x, v) :: env) :: rest)
+        if List.mem_assoc x env then
+            raise (MultipleDeclaration x)
+        else
+            Env (( (x, v) :: env) :: rest)
     | _ -> failwith "Frame.vdec applied to a non-environment frame"
-
   let rec vlookup (frame : t) (x : Ast.Id.t) : Value.t =
     match frame with
     | Env [] -> raise (UnboundVariable x)
     | Env (env :: rest) ->
-      begin
-        try List.assoc x env
-        with Not_found -> vlookup (Env rest) x
-      end
+        begin
+          try List.assoc x env
+          with Not_found -> vlookup (Env rest) x
+        end
     | _ -> failwith "Frame.vlookup applied to a non-environment frame"
-end
-
-(* exec p :  execute the program p according to the operational semantics
- * provided as a handout.
- *)
- let exec (p : Ast.Program.t) : unit =
-  match p with
-  | P.Id -> "main" 
-    let init_frame = Frame.Env [] in  
-      exec_stmList (sl : Ast.Stm.t list) (init_frame : Frame.t) (p : Ast.Program.t) : Frame.t =
-        List.fold_left (fun fr s -> exec_stm s fr p) frame sl
-  | None -> raise (UndefinedFunction "main")
- 
-
-
+  let return (frame : t) (v : Value.t) : t =
+    match frame with
+    | Env _ -> Return v  (* Since 'envs' is not used, replace it with '_' *)
+    | _ -> failwith "Frame.return applied to a non-environment frame"
+  end
 
 (* expressions *)
 let binop (op : E.binop) (v : Value.t) (v' : Value.t) : Value.t =
@@ -261,48 +247,88 @@ let rec eval (frame : Frame.t) (e : E.t)(p : Ast.Program.t) : Value.t * Frame.t 
       (match v with
        | Value.V_Int n -> (Value.V_Int (-n), frame')
        | _ -> failwith "TypeError: Neg operation requires an integer")
-  | E.Call (f_name, args) -> raise(UndefinedFunction "Not implemented")
-    
+(*  | E.Call (f_name, args) ->
+      match p with
+    | Ast.Program.Pgm fundefs ->
+        let func_opt = List.find_opt (fun (Ast.Program.FunDef (name, _, _)) -> name = f_name) fundefs in
+          match func_opt with
+          | Some (Ast.Program.FunDef (_, param_names, body)) ->
+              let evaluated_args, new_frame = List.fold_right (fun arg (eval_args, fr) ->
+                  let arg_val, updated_frame = eval fr arg p in
+                  (arg_val :: eval_args, updated_frame)
+              ) args ([], frame) in
+              let new_env = List.combine param_names evaluated_args in
+              let body_frame =
+                match new_frame with
+                | Frame.Env envs -> Frame.Env (new_env :: envs)
+                | _ -> failwith "Expected environment frame" in
+              let func_frame = exec_stmList body body_frame p;
+              (match func_frame with
+                | Frame.Return v -> (v, new_frame)
+                | _ -> (Value.V_None, new_frame))
+          | None -> raise (UndefinedFunction f_name) 
+    | _ -> failwith "Invalid program structure"*)
     
 
-
-and exec_stm (stm : Ast.Stm.t) (frame : Frame.t) (p : Ast.Program.t) : Frame.t =
-  match stm with
-    | S.Skip -> frame
-    | S.VarDec decls ->
-        List.fold_left (fun fr (x, opt_e) ->
-          match opt_e with
-          | None -> Frame.vdec fr x Value.V_Undefined
-          | Some e ->
-              let v, fr' = eval fr e p in
-              Frame.vdec fr' x v) frame decls
-    | S.Expr e ->
-        let _, frame' = eval frame e p in
-        frame'
-    | S.Block stms ->
-        List.fold_left (fun fr s -> exec_stm s fr p) frame stms
-    | S.If (e, s1, s2) ->
-        let v, frame' = eval frame e p in
-        (match v with
-        | Value.V_Bool true -> exec_stm s1 frame' p
-        | Value.V_Bool false -> exec_stm s2 frame' p
-        | _ -> failwith "TypeError: If condition is not boolean")
-    | S.While (e, s) ->
-        let rec loop fr =
-          let v, fr' = eval fr e p in
-          match v with
-          | Value.V_Bool true -> loop (exec_stm s fr' p)
-          | Value.V_Bool false -> fr'
-          | _ -> failwith "TypeError: While condition is not boolean"
-        in loop frame
-    (* | S.Return opt_e ->
+(* Evaluate a single statement *)
+  and exec_stm (stm : Ast.Stm.t) (frame : Frame.t) (p : Ast.Program.t) : Frame.t =
+    match stm with
+      | S.Skip -> 
+          frame  (* Do nothing and return the current frame *)
+      | S.VarDec decls ->
+          List.fold_left (fun fr (x, opt_e) ->
+            match opt_e with
+            | None -> Frame.vdec fr x Value.V_Undefined  (* Declare uninitialized variable *)
+            | Some e ->
+                let v, fr' = eval fr e p in  (* Evaluate the initialization expression *)
+                Frame.vdec fr' x v  (* Update the frame with the new variable value *)
+          ) frame decls
+      | S.Expr e ->
+          let _, frame' = eval frame e p in  (* Evaluate the expression, but only use the updated frame *)
+          frame'
+      | S.Block stms ->
+          exec_stmList stms frame p  (* Execute a list of statements *)
+      | S.If (e, s1, s2) ->
+          let v, frame' = eval frame e p in  (* Evaluate the condition *)
+          (match v with
+          | Value.V_Bool true -> exec_stm s1 frame' p  (* Execute the 'then' branch *)
+          | Value.V_Bool false -> exec_stm s2 frame' p  (* Execute the 'else' branch *)
+          | _ -> failwith "TypeError: If condition is not boolean"
+          )
+      | S.While (e, s) ->
+          let rec loop fr =
+            let v, fr' = eval fr e p in  (* Evaluate the condition within the loop *)
+            match v with
+            | Value.V_Bool true -> loop (exec_stm s fr' p)  (* Continue the loop if condition is true *)
+            | Value.V_Bool false -> fr'  (* Exit the loop if condition is false *)
+            | _ -> failwith "TypeError: While condition is not boolean"
+          in loop frame
+      | S.Return opt_e ->
         let v = match opt_e with
           | None -> Value.V_None
           | Some e -> fst (eval frame e p)
-        in Frame.return frame v   *)
+        in
+        Frame.return frame v
 
 
+  (* Evaluate a list of statements *)
+  and exec_stmList (stms : Ast.Stm.t list) (frame : Frame.t) (p : Ast.Program.t) : Frame.t =
+      List.fold_left (fun fr s -> exec_stm s fr p) frame stms
 
-(* expression *)
-and exec_stmList (sl : Ast.Stm.t list) (frame : Frame.t) (p : Ast.Program.t) : Frame.t =
-  List.fold_left (fun fr s -> exec_stm s fr p) frame sl
+
+(* exec p :  execute the program p according to the operational semantics
+ * provided as a handout.
+ *)
+ let exec (p : Ast.Program.t) : unit =
+  match p with
+    | Ast.Program.Pgm fundefs ->
+        let main_func_opt = List.find_opt (fun (Ast.Program.FunDef (name, _, _)) -> name = "main") fundefs in
+        begin
+            match main_func_opt with
+            | Some(Ast.Program.FunDef (_, _, body)) ->
+                let initial_frame = Frame.Env [] in
+                ignore (exec_stmList body initial_frame p);
+                ()
+            | None -> 
+                raise (UndefinedFunction "main")
+        end
