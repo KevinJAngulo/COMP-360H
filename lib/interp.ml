@@ -178,7 +178,7 @@ module Frame = struct
   type t = 
     | Env of env list
     | Value of Value.t
-    | Return of Value.t  (* Add this variant to handle return values *)
+    | Return of Value.t 
 
   let vdec (frame : t) (x : Ast.Id.t) (v : Value.t) : t =
     match frame with
@@ -200,7 +200,7 @@ module Frame = struct
     | _ -> failwith "Frame.vlookup applied to a non-environment frame"
   let return (frame : t) (v : Value.t) : t =
     match frame with
-    | Env _ -> Return v  (* Since 'envs' is not used, replace it with '_' *)
+    | Env _ -> Return v 
     | _ -> failwith "Frame.return applied to a non-environment frame"
   end
 
