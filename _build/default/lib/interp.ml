@@ -65,7 +65,26 @@ end
  * A client makes changes to the defaults by setting `in_channel`,
  * `out_channel`, and `show_prompts`.
  *)
+module Env = struct
+  (* The type of environments.
+   *)
+  type t = Value.t IdentMap.t
 
+  (*  lookup σ x = σ(x).
+   *)
+  let lookup (sigma : t) (x : Ast.Id.t) : Value.t =
+    IdentMap.find x sigma
+
+  (*  update σ x v = σ{x → v}.
+   *)
+  let update (sigma : t) (x : Ast.Id.t) (v : Value.t) : t =
+    IdentMap.add x v sigma
+
+  (*  empty = σ, where dom σ = ∅.
+   *)
+  let empty : t = IdentMap.empty
+
+end
 
 module Api = struct
 
@@ -177,7 +196,7 @@ module Frame = struct
   (* The type of frames
    *)
   type t = 
-    | Env of env.t list
+    | Env of Env.t list
     | Value of Value.t
 
   let vdec (frame : t) (x : Ast.Id.t) (v : Value.t) : t =
@@ -274,41 +293,41 @@ let rec eval (frame : Frame.t) (e : E.t)(p : Ast.Program.t) : Value.t * Frame.t 
           exec_function body frame_with_args p  (* Assuming exec_function handles the execution of function bodies *)
       | None -> failwith ("UndefinedFunction: " ^ f)
 
-
 and exec_stm (stm : Ast.Stm.t) (frame : Frame.t) (p : Ast.Program.t) : Frame.t =
-match stm with
-| S.Skip -> frame
-| S.VarDec decls ->
-    List.fold_left (fun fr (x, opt_e) ->
-      match opt_e with
-      | None -> Frame.vdec fr x Value.V_Undefined
-      | Some e ->
+  match stm with
+    | S.Skip -> frame
+    | S.VarDec decls ->
+        List.fold_left (fun fr (x, opt_e) ->
+          match opt_e with
+          | None -> Frame.vdec fr x Value.V_Undefined
+          | Some e ->
+              let v, fr' = eval fr e p in
+              Frame.vdec fr' x v) frame decls
+    | S.Expr e ->
+        let _, frame' = eval frame e p in
+        frame'
+    | S.Block stms ->
+        List.fold_left (fun fr s -> exec_stm s fr p) frame stms
+    | S.If (e, s1, s2) ->
+        let v, frame' = eval frame e p in
+        (match v with
+        | Value.V_Bool true -> exec_stm s1 frame' p
+        | Value.V_Bool false -> exec_stm s2 frame' p
+        | _ -> failwith "TypeError: If condition is not boolean")
+    | S.While (e, s) ->
+        let rec loop fr =
           let v, fr' = eval fr e p in
-          Frame.vdec fr' x v) frame decls
-| S.Expr e ->
-    let _, frame' = eval frame e p in
-    frame'
-| S.Block stms ->
-    List.fold_left (fun fr s -> exec_stm s fr p) frame stms
-| S.If (e, s1, s2) ->
-    let v, frame' = eval frame e p in
-    (match v with
-     | Value.V_Bool true -> exec_stm s1 frame' p
-     | Value.V_Bool false -> exec_stm s2 frame' p
-     | _ -> failwith "TypeError: If condition is not boolean")
-| S.While (e, s) ->
-    let rec loop fr =
-      let v, fr' = eval fr e p in
-      match v with
-      | Value.V_Bool true -> loop (exec_stm s fr' p)
-      | Value.V_Bool false -> fr'
-      | _ -> failwith "TypeError: While condition is not boolean"
-    in loop frame
-| S.Return opt_e ->
-    let v = match opt_e with
-      | None -> Value.V_None
-      | Some e -> fst (eval frame e p)
-    in Frame.return frame v  (* Implement Frame.return based on your framework if necessary *)
+          match v with
+          | Value.V_Bool true -> loop (exec_stm s fr' p)
+          | Value.V_Bool false -> fr'
+          | _ -> failwith "TypeError: While condition is not boolean"
+        in loop frame
+    | S.Return opt_e ->
+        let v = match opt_e with
+          | None -> Value.V_None
+          | Some e -> fst (eval frame e p)
+        in Frame.return frame v  (* Implement Frame.return based on your framework if necessary *)
+
 
 
 (* expression *)

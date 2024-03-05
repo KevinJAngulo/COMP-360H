@@ -65,7 +65,26 @@ end
  * A client makes changes to the defaults by setting `in_channel`,
  * `out_channel`, and `show_prompts`.
  *)
+module Env = struct
+  (* The type of environments.
+   *)
+  type t = Value.t IdentMap.t
 
+  (*  lookup σ x = σ(x).
+   *)
+  let lookup (sigma : t) (x : Ast.Id.t) : Value.t =
+    IdentMap.find x sigma
+
+  (*  update σ x v = σ{x → v}.
+   *)
+  let update (sigma : t) (x : Ast.Id.t) (v : Value.t) : t =
+    IdentMap.add x v sigma
+
+  (*  empty = σ, where dom σ = ∅.
+   *)
+  let empty : t = IdentMap.empty
+
+end
 
 module Api = struct
 
@@ -177,7 +196,7 @@ module Frame = struct
   (* The type of frames
    *)
   type t = 
-    | Env of env.t list
+    | Env of Env.t list
     | Value of Value.t
 
   let vdec (frame : t) (x : Ast.Id.t) (v : Value.t) : t =
