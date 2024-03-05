@@ -209,7 +209,7 @@ end
  *)
 let exec (p : Ast.Program.t) : unit =
   match p with
-  | P.Id -> "main" 
+  | p.Id -> "main" 
     let init_frame = Frame.Env [] in  
       exec_stmList (sl : Ast.Stm.t list) (init_frame : Frame.t) (p : Ast.Program.t) : Frame.t =
         List.fold_left (fun fr s -> exec_stm s fr p) frame sl
