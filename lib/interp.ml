@@ -204,6 +204,22 @@ module Frame = struct
     | _ -> failwith "Frame.vlookup applied to a non-environment frame"
 end
 
+(* exec p :  execute the program p according to the operational semantics
+ * provided as a handout.
+ *)
+let exec (p : Ast.Program.t) : unit =
+match p with
+| Ast.Program.Pgm fundefs ->
+    let main_func_opt = List.find_opt (fun (Ast.Program.FunDef (name, _, _)) -> name = "main") fundefs in
+    begin
+      match main_func_opt with
+      | Some(Ast.Program.FunDef (_, params, body)) ->
+          (* Now execute the main function's body. 
+              You will need to implement or use an existing function to execute the body.
+              For example, this could involve setting up a new frame and then evaluating each statement. *)
+          ()
+      | None -> raise (UndefinedFunction "main")
+    end
 
 
 
@@ -250,9 +266,9 @@ let rec eval (frame : Frame.t) (e : E.t)(p : Ast.Program.t) : Value.t * Frame.t 
       (match v with
        | Value.V_Int n -> (Value.V_Int (-n), frame')
        | _ -> failwith "TypeError: Neg operation requires an integer")
-  | E.Call (f, args) ->
-      let v, frame' = eval frame e p in 
-        (v, Frame.vlookup )
+  | E.Call (f_name, args) -> raise(UndefinedFunction "Not implemented")
+    
+    
 
 
 and exec_stm (stm : Ast.Stm.t) (frame : Frame.t) (p : Ast.Program.t) : Frame.t =
@@ -284,11 +300,11 @@ and exec_stm (stm : Ast.Stm.t) (frame : Frame.t) (p : Ast.Program.t) : Frame.t =
           | Value.V_Bool false -> fr'
           | _ -> failwith "TypeError: While condition is not boolean"
         in loop frame
-    | S.Return opt_e ->
+    (* | S.Return opt_e ->
         let v = match opt_e with
           | None -> Value.V_None
           | Some e -> fst (eval frame e p)
-        in Frame.return frame v  
+        in Frame.return frame v   *)
 
 
 

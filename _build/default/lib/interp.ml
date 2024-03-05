@@ -204,6 +204,22 @@ module Frame = struct
     | _ -> failwith "Frame.vlookup applied to a non-environment frame"
 end
 
+(* exec p :  execute the program p according to the operational semantics
+ * provided as a handout.
+ *)
+let exec (p : Ast.Program.t) : unit =
+match p with
+| Ast.Program.Pgm fundefs ->
+    let main_func_opt = List.find_opt (fun (Ast.Program.FunDef (name, _, _)) -> name = "main") fundefs in
+    begin
+      match main_func_opt with
+      | Some(Ast.Program.FunDef (_, params, body)) ->
+          (* Now execute the main function's body. 
+              You will need to implement or use an existing function to execute the body.
+              For example, this could involve setting up a new frame and then evaluating each statement. *)
+          ()
+      | None -> raise (UndefinedFunction "main")
+    end
 
 
 
@@ -250,24 +266,9 @@ let rec eval (frame : Frame.t) (e : E.t)(p : Ast.Program.t) : Value.t * Frame.t 
       (match v with
        | Value.V_Int n -> (Value.V_Int (-n), frame')
        | _ -> failwith "TypeError: Neg operation requires an integer")
-  | E.Call (f, args) ->
-    (* Evaluate each argument in the list 'args' *)
-    let evaluated_args, frame' = List.fold_right (fun arg (vals, fr) ->
-        let arg_val, updated_fr = eval fr arg p in
-        (arg_val :: vals, updated_fr)) args ([], frame) in
-    (* Lookup the function definition by its name 'f' from the program 'p' *)
-    match List.find_opt (fun func -> func.name = f) p.functions with
-    | Some(func_def) ->
-        (* Assuming 'exec_function' is the function that executes the function body.
-           You'll need to replace it with the actual function execution logic of your interpreter.
-           This typically involves creating a new frame for the function's scope,
-           binding the evaluated arguments to the function's parameters, and then
-           executing the function's body statements. *)
-        let call_frame = exec_function func_def evaluated_args new_frame p in
-        (Value.V_None, call_frame)  (* Replace 'Value.V_None' with the actual return value, if your functions return values *)
-    | None ->
-        failwith ("UndefinedFunction: " ^ f)
-
+  | E.Call (f_name, args) -> raise(UndefinedFunction "Not implemented")
+    
+    
 
 
 and exec_stm (stm : Ast.Stm.t) (frame : Frame.t) (p : Ast.Program.t) : Frame.t =
@@ -299,11 +300,11 @@ and exec_stm (stm : Ast.Stm.t) (frame : Frame.t) (p : Ast.Program.t) : Frame.t =
           | Value.V_Bool false -> fr'
           | _ -> failwith "TypeError: While condition is not boolean"
         in loop frame
-    | S.Return opt_e ->
+    (* | S.Return opt_e ->
         let v = match opt_e with
           | None -> Value.V_None
           | Some e -> fst (eval frame e p)
-        in Frame.return frame v  
+        in Frame.return frame v   *)
 
 
 
