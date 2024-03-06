@@ -2,12 +2,14 @@ function main() {
     var a ;
     var i = 1;
 
-    a = prompt_int("Enter a: ") ;
+    a = prompt_int("Enter a: ");
 
     while (i < a) do {
         i = i + 1 ;
     }
 
-    return i;
+    print_int(i);
+
+    return;
 
 }

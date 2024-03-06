@@ -175,51 +175,51 @@
  
  end
  
- module Frame = struct
-   type env = (Ast.Id.t * Value.t) list
-   type t = 
-     | Env of env list
-     | Return of Value.t 
- 
-   let vdec (frame : t) (x : Ast.Id.t) (v : Value.t) : t =
-     match frame with
-     | Env [] -> Env [ [(x, v)] ]
-     | Env (env :: rest) ->
-         if List.mem_assoc x env then
-             raise (MultipleDeclaration x)
-         else
-             Env (( (x, v) :: env) :: rest)
-     | _ -> failwith "Frame.vdec applied to a non-environment frame"
-   let rec vlookup (frame : t) (x : Ast.Id.t) : Value.t =
-     match frame with
-     | Env [] -> raise (UnboundVariable x)
-     | Env (env :: rest) ->
-         begin
-           try List.assoc x env
-           with Not_found -> vlookup (Env rest) x
-         end
-     | _ -> failwith "Frame.vlookup applied to a non-environment frame"
-   let rec vupdate (frame : t) (x : Ast.Id.t) (v : Value.t) : t =
-     match frame with
-     | Env [] -> raise (UnboundVariable x) (* If the environment is empty, the variable is unbound *)
-     | Env (env :: rest) ->
-         if List.mem_assoc x env then
-           (* If the variable is found in the current environment, update its value *)
-           Env ((List.map (fun (key, value) -> if key = x then (key, v) else (key, value)) env) :: rest)
-         else
-           (* If the variable is not found in the current environment, try updating in the outer environment *)
-           let updated_rest = match vupdate (Env rest) x v with
-             | Env updated_envs -> updated_envs
-             | _ -> failwith "Unexpected frame type encountered during update"
-           in
-           Env (env :: updated_rest)
-     | _ -> failwith "Frame.vupdate applied to a non-environment frame"
-     
-   let return (frame : t) (v : Value.t) : t =
-     match frame with
-     | Env _ -> Return v 
-     | _ -> failwith "Frame.return applied to a non-environment frame"
-   end
+module Frame = struct
+  type env = (Ast.Id.t * Value.t) list
+  type t = 
+    | Env of env list
+    | Return of Value.t 
+
+  let vdec (frame : t) (x : Ast.Id.t) (v : Value.t) : t =
+    match frame with
+    | Env [] -> Env [ [(x, v)] ]
+    | Env (env :: rest) ->
+        if List.mem_assoc x env then
+            raise (MultipleDeclaration x)
+        else
+            Env (( (x, v) :: env) :: rest)
+    | _ -> failwith "Frame.vdec applied to a non-environment frame"
+  let rec vlookup (frame : t) (x : Ast.Id.t) : Value.t =
+    match frame with
+    | Env [] -> raise (UnboundVariable x)
+    | Env (env :: rest) ->
+        begin
+          try List.assoc x env
+          with Not_found -> vlookup (Env rest) x
+        end
+    | _ -> failwith "Frame.vlookup applied to a non-environment frame"
+  let rec vupdate (frame : t) (x : Ast.Id.t) (v : Value.t) : t =
+    match frame with
+    | Env [] -> raise (UnboundVariable x) (* If the environment is empty, the variable is unbound *)
+    | Env (env :: rest) ->
+        if List.mem_assoc x env then
+          (* If the variable is found in the current environment, update its value *)
+          Env ((List.map (fun (key, value) -> if key = x then (key, v) else (key, value)) env) :: rest)
+        else
+          (* If the variable is not found in the current environment, try updating in the outer environment *)
+          let updated_rest = match vupdate (Env rest) x v with
+            | Env updated_envs -> updated_envs
+            | _ -> failwith "Unexpected frame type encountered during update"
+          in
+          Env (env :: updated_rest)
+    | _ -> failwith "Frame.vupdate applied to a non-environment frame"
+    
+  let return (frame : t) (v : Value.t) : t =
+    match frame with
+    | Env _ -> Return v 
+    | _ -> failwith "Frame.return applied to a non-environment frame"
+  end
  
  
  (* expressions *)
@@ -254,7 +254,7 @@
        (binop op v1 v2, frame2)
    | E.Assign (x, e) ->
        let v, frame' = eval frame e p in
-       (v, Frame.vdec frame' x v)
+       (v, Frame.vupdate frame' x v)
    | E.Not e ->
        let v, frame' = eval frame e p in
        (match v with

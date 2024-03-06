@@ -6,3 +6,6 @@ lib: [
 bin: [
   "_build/install/default/bin/imp"
 ]
+doc: [
+  "_build/install/default/doc/imp/README.md"
+]

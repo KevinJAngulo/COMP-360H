@@ -8,7 +8,7 @@ function main() {
         i = i + 1 ;
         skip ; 
     }
-
-    return i;
+    print_int(2); 
+    return;
 
 }
