@@ -174,35 +174,43 @@ module Api = struct
 end
 
 module Frame = struct
-  type env = (Ast.Id.t * Value.t) list
+  (* The type of frames
+   *)
   type t = 
-    | Env of env list
-    | Value of Value.t
-    | Return of Value.t 
-
+    | EnvL of Env.t list
+    | ReturnFrame of Value.t
+    
   let vdec (frame : t) (x : Ast.Id.t) (v : Value.t) : t =
     match frame with
-    | Env [] -> Env [ [(x, v)] ]
-    | Env (env :: rest) ->
-        if List.mem_assoc x env then
-            raise (MultipleDeclaration x)
-        else
-            Env (( (x, v) :: env) :: rest)
-    | _ -> failwith "Frame.vdec applied to a non-environment frame"
+    | ReturnFrame n -> raise (ReturnFrameInvdec n)
+    | EnvL [] -> EnvL [Env.update Env.empty x v] (* Create a new environment with the variable binding *)
+    | EnvL env :: rest ->
+      if List.mem_assoc x env then
+        (* Variable already defined in the innermost environment *)
+        raise (MultipleDeclaration x)
+      else
+        (* Add the variable binding to the innermost environment *)
+        Env.update Env.empty x v :: env :: rest
   let rec vlookup (frame : t) (x : Ast.Id.t) : Value.t =
     match frame with
-    | Env [] -> raise (UnboundVariable x)
-    | Env (env :: rest) ->
-        begin
-          try List.assoc x env
-          with Not_found -> vlookup (Env rest) x
-        end
-    | _ -> failwith "Frame.vlookup applied to a non-environment frame"
-  let return (frame : t) (v : Value.t) : t =
-    match frame with
-    | Env _ -> Return v 
-    | _ -> failwith "Frame.return applied to a non-environment frame"
-  end
+    | ReturnFrame _ -> raise (UnboundVariable x) (* Cannot lookup in a return frame *)
+    | EnvL [] -> raise (UnboundVariable x)
+    | EnvL env -> 
+      begin
+        try
+          List.assoc x env
+        with Not_found ->
+          raise (UnboundVariable x)
+      end
+    | Envl env :: rest ->
+      begin
+        try
+          List.assoc x env
+        with Not_found ->
+          vlookup rest x (* Lookup in the outer environment *)
+      end
+end
+
 
 (* expressions *)
 let binop (op : E.binop) (v : Value.t) (v' : Value.t) : Value.t =
