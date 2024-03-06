@@ -173,42 +173,36 @@ module Api = struct
 
 end
 
-exception ReturnFrameInvdec
+
 module Frame = struct
-  (* The type of frames
-   *)
   type t = 
     | EnvL of Env.t list
     | ReturnFrame of Value.t
-    
+ 
   let vdec (frame : t) (x : Ast.Id.t) (v : Value.t) : t =
     match frame with
-    | ReturnFrame n -> raise ReturnFrameInvdec
+    | ReturnFrame _ -> raise ReturnFrameInvdec
     | EnvL [] -> EnvL [Env.update Env.empty x v] (* Create a new environment with the variable binding *)
-    | EnvL env :: rest ->
-      if List.mem_assoc x env then
-        (* Variable already defined in the innermost environment *)
-        raise (MultipleDeclaration x)
-      else
-        (* Add the variable binding to the innermost environment *)
-        Env.update Env.empty x v :: env :: rest
+    | EnvL (env :: rest) ->
+      let env_list = IdentMap.bindings env
+      in
+        if List.mem_assoc x env_list then
+          (* Variable already defined in the innermost environment *)
+          raise (MultipleDeclaration x)
+        else
+          (* Add the variable binding to the innermost environment *)
+          EnvL (Env.update Env.empty x v :: env :: rest)
+  
   let rec vlookup (frame : t) (x : Ast.Id.t) : Value.t =
     match frame with
     | ReturnFrame _ -> raise (UnboundVariable x) (* Cannot lookup in a return frame *)
     | EnvL [] -> raise (UnboundVariable x)
-    | EnvL env -> 
+    | EnvL (env :: rest) ->
       begin
         try
-          List.assoc x env
+          IdentMap.find x env
         with Not_found ->
-          raise (UnboundVariable x)
-      end
-    | Envl env :: rest ->
-      begin
-        try
-          List.assoc x env
-        with Not_found ->
-          vlookup rest x (* Lookup in the outer environment *)
+          vlookup (EnvL rest) x (* Lookup in the outer environment *)
       end
 end
 
