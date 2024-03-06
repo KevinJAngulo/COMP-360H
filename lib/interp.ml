@@ -29,6 +29,8 @@ exception UndefinedFunction of Ast.Id.t
  *)
 exception TypeError of string
 
+exception ReturnFrameInvdec
+
 (* Values.
  *)
 module Value = struct
@@ -173,36 +175,39 @@ module Api = struct
 
 end
 
-module Frame = struct
-  type env = (Ast.Id.t * Value.t) list
-  type t = 
-    | Env of env list
-    | Value of Value.t
-    | Return of Value.t 
 
+module Frame = struct
+  type t = 
+    | EnvL of Env.t list
+    | ReturnFrame of Value.t
+ 
   let vdec (frame : t) (x : Ast.Id.t) (v : Value.t) : t =
     match frame with
-    | Env [] -> Env [ [(x, v)] ]
-    | Env (env :: rest) ->
-        if List.mem_assoc x env then
-            raise (MultipleDeclaration x)
+    | ReturnFrame _ -> raise ReturnFrameInvdec
+    | EnvL [] -> EnvL [Env.update Env.empty x v] (* Create a new environment with the variable binding *)
+    | EnvL (env :: rest) ->
+      let env_list = IdentMap.bindings env
+      in
+        if List.mem_assoc x env_list then
+          (* Variable already defined in the innermost environment *)
+          raise (MultipleDeclaration x)
         else
-            Env (( (x, v) :: env) :: rest)
-    | _ -> failwith "Frame.vdec applied to a non-environment frame"
+          (* Add the variable binding to the innermost environment *)
+          EnvL (Env.update Env.empty x v :: env :: rest)
+  
   let rec vlookup (frame : t) (x : Ast.Id.t) : Value.t =
     match frame with
-    | Env [] -> raise (UnboundVariable x)
-    | Env (env :: rest) ->
-        begin
-          try List.assoc x env
-          with Not_found -> vlookup (Env rest) x
-        end
-    | _ -> failwith "Frame.vlookup applied to a non-environment frame"
-  let return (frame : t) (v : Value.t) : t =
-    match frame with
-    | Env _ -> Return v 
-    | _ -> failwith "Frame.return applied to a non-environment frame"
-  end
+    | ReturnFrame _ -> raise (UnboundVariable x) (* Cannot lookup in a return frame *)
+    | EnvL [] -> raise (UnboundVariable x)
+    | EnvL (env :: rest) ->
+      begin
+        try
+          IdentMap.find x env
+        with Not_found ->
+          vlookup (EnvL rest) x (* Lookup in the outer environment *)
+      end
+end
+
 
 (* expressions *)
 let binop (op : E.binop) (v : Value.t) (v' : Value.t) : Value.t =
