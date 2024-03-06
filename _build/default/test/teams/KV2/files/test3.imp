@@ -1,0 +1,12 @@
+function main(){
+
+    var a = 2; 
+
+    if (a==2) then {
+        var a =3;
+    }
+
+    print_int(a); 
+
+    return; 
+}
