@@ -21,13 +21,13 @@
 #        }
 #  ; instrument_with = []
 #  }
-$ /Users/kevinj_angulo/.opam/5.1.1/bin/ocamlc.opt -config > /var/folders/8q/8kg6dnyj0317_y7lhxbzkpdh0000gn/T/dune_791153_output
+$ /Users/kevinj_angulo/.opam/5.1.1/bin/ocamlc.opt -config > /var/folders/8q/8kg6dnyj0317_y7lhxbzkpdh0000gn/T/dune_7bbbdd_output
 $ (cd _build/default/test && ./test_interp.exe)
-> E..........F.....EE....E.........EE....
+> E..........F....EE......E........EE....
 > ==============================================================================
 > Error: all tests:0:teams/KV2:16:while.json:1:1.
 >
-> File "/Users/kevinj_angulo/Documents/Comp360H/Assignment 1/COMP-360H/_build/default/test/oUnit-all tests-Kevins-MacBook-Pro-2.local#02.log", line 155, characters 1-1:
+> File "/Users/kevinj_angulo/Documents/Comp360H/Assignment 1/COMP-360H/_build/default/test/oUnit-all tests-Kevins-MacBook-Pro-2.local#01.log", line 115, characters 1-1:
 > Error: all tests:0:teams/KV2:16:while.json:1:1 (in the log).
 >
 > Raised at Imp__Parser.MenhirBasics._eRR in file "lib/parser.ml" (inlined), line 8, characters 6-17
@@ -43,7 +43,7 @@ $ (cd _build/default/test && ./test_interp.exe)
 > ==============================================================================
 > Error: all tests:0:teams/KV2:16:while.json:0:0.
 >
-> File "/Users/kevinj_angulo/Documents/Comp360H/Assignment 1/COMP-360H/_build/default/test/oUnit-all tests-Kevins-MacBook-Pro-2.local#01.log", line 107, characters 1-1:
+> File "/Users/kevinj_angulo/Documents/Comp360H/Assignment 1/COMP-360H/_build/default/test/oUnit-all tests-Kevins-MacBook-Pro-2.local#02.log", line 147, characters 1-1:
 > Error: all tests:0:teams/KV2:16:while.json:0:0 (in the log).
 >
 > Raised at Imp__Parser.MenhirBasics._eRR in file "lib/parser.ml" (inlined), line 8, characters 6-17
@@ -59,7 +59,7 @@ $ (cd _build/default/test && ./test_interp.exe)
 > ==============================================================================
 > Error: all tests:0:teams/KV2:13:gcd.json:0:0.
 >
-> File "/Users/kevinj_angulo/Documents/Comp360H/Assignment 1/COMP-360H/_build/default/test/oUnit-all tests-Kevins-MacBook-Pro-2.local#02.log", line 113, characters 1-1:
+> File "/Users/kevinj_angulo/Documents/Comp360H/Assignment 1/COMP-360H/_build/default/test/oUnit-all tests-Kevins-MacBook-Pro-2.local#01.log", line 73, characters 1-1:
 > Error: all tests:0:teams/KV2:13:gcd.json:0:0 (in the log).
 >
 > Raised at Imp__Interp.Frame.vdec in file "lib/interp.ml", line 188, characters 12-41
