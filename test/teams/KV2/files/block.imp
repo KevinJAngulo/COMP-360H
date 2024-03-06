@@ -1,0 +1,8 @@
+function main() {
+    var b;
+    b = prompt_int("Enter b: ") ; 
+  {
+    b = prompt_int("Enter b: ") ; 
+  }
+  print_int(b); 
+}

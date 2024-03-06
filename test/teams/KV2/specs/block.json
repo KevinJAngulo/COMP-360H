@@ -1,0 +1,11 @@
+{
+    "file":     "block.imp",
+    "input":    [ "10","60" ],
+    "output":   [ "60" ]
+} 
+//should fail
+{
+    "file":     "block.imp",
+    "input":    [ "20","10" ],
+    "output":   [ "20" ]
+} 
