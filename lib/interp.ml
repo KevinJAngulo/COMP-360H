@@ -198,6 +198,22 @@ module Frame = struct
           with Not_found -> vlookup (Env rest) x
         end
     | _ -> failwith "Frame.vlookup applied to a non-environment frame"
+  let rec vupdate (frame : t) (x : Ast.Id.t) (v : Value.t) : t =
+    match frame with
+    | Env [] -> raise (UnboundVariable x) (* If the environment is empty, the variable is unbound *)
+    | Env (env :: rest) ->
+        if List.mem_assoc x env then
+          (* If the variable is found in the current environment, update its value *)
+          Env ((List.map (fun (key, value) -> if key = x then (key, v) else (key, value)) env) :: rest)
+        else
+          (* If the variable is not found in the current environment, try updating in the outer environment *)
+          let updated_rest = match vupdate (Env rest) x v with
+            | Env updated_envs -> updated_envs
+            | _ -> failwith "Unexpected frame type encountered during update"
+          in
+          Env (env :: updated_rest)
+    | _ -> failwith "Frame.vupdate applied to a non-environment frame"
+    
   let return (frame : t) (v : Value.t) : t =
     match frame with
     | Env _ -> Return v 
@@ -226,6 +242,9 @@ let binop (op : E.binop) (v : Value.t) (v' : Value.t) : Value.t =
 (* statments *)
 let rec eval (frame : Frame.t) (e : E.t)(p : Ast.Program.t) : Value.t * Frame.t =
   match e with
+  | E.Assign (x, e) ->
+    let v, frame' = eval frame e p in
+    (v, Frame.vupdate frame' x v)
   | E.Var x -> (Frame.vlookup frame x, frame)
   | E.Num n -> (Value.V_Int n, frame)
   | E.Bool b -> (Value.V_Bool b, frame)
@@ -234,9 +253,6 @@ let rec eval (frame : Frame.t) (e : E.t)(p : Ast.Program.t) : Value.t * Frame.t 
       let v1, frame1 = eval frame e1 p in
       let v2, frame2 = eval frame1 e2 p in
       (binop op v1 v2, frame2)
-  | E.Assign (x, e) ->
-      let v, frame' = eval frame e p in
-      (v, Frame.vdec frame' x v)
   | E.Not e ->
       let v, frame' = eval frame e p in
       (match v with
@@ -248,6 +264,32 @@ let rec eval (frame : Frame.t) (e : E.t)(p : Ast.Program.t) : Value.t * Frame.t 
        | Value.V_Int n -> (Value.V_Int (-n), frame')
        | _ -> failwith "TypeError: Neg operation requires an integer")
   | E.Call (f_name, args) ->
+    begin
+      try
+        let api_function = Api.do_call f_name (List.map (fun arg -> let value, _ = eval frame arg p in value) args) in
+        (api_function, frame)
+      with
+      | Api.ApiError _ ->
+        match p with
+        | Ast.Program.Pgm fundefs ->
+            let fun_opt = List.find_opt (fun (Ast.Program.FunDef (name, _, _)) -> name = f_name) fundefs in
+            begin
+              match fun_opt with
+              | Some(Ast.Program.FunDef (_, param_names, body)) ->
+                  let evaluated_args, new_frame = List.fold_right (fun arg (acc_args, fr) ->
+                      let arg_value, updated_frame = eval fr arg p in
+                      (arg_value :: acc_args, updated_frame)
+                  ) args ([], frame) in
+                  let new_env = List.combine param_names evaluated_args in
+                  let body_frame = Frame.Env ([new_env] @ match new_frame with Frame.Env envs -> envs | _ -> []) in
+                  let func_frame = exec_stmList body body_frame p in
+                  (Value.V_None, func_frame)  (* Assuming no value returned by function bodies *)
+              | None -> raise (UndefinedFunction f_name)
+            end
+  end
+      
+    
+
   
 (* Evaluate a single statement *)
   and exec_stm (stm : Ast.Stm.t) (frame : Frame.t) (p : Ast.Program.t) : Frame.t =

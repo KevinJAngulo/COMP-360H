@@ -9,6 +9,7 @@ function main() {
         skip ; 
     }
 
-    return i;
+    print_int(i);
+    return;
 
 }

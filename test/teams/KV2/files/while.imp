@@ -8,6 +8,8 @@ function main() {
         i = i + 1 ;
     }
 
-    return i;
+    print_int(i)
+
+    return;
 
 }

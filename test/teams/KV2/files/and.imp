@@ -1,11 +1,13 @@
 function main() {
   bool a;
   bool b;
+  bool c;
 
   a = prompt_bool("Enter boolean a: ") ;
   b = prompt_bool("Enter boolean b: ") ;
+  c = a && b;
 
-  print_bool(a && b) ;
+  print_bool(c) ;
 
   return ;
 }
