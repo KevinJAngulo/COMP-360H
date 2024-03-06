@@ -29,6 +29,8 @@ exception UndefinedFunction of Ast.Id.t
  *)
 exception TypeError of string
 
+exception ReturnFrameInvdec
+
 (* Values.
  *)
 module Value = struct
