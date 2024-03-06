@@ -21,14 +21,14 @@
 #        }
 #  ; instrument_with = []
 #  }
-$ /Users/kevinj_angulo/.opam/5.1.1/bin/ocamlc.opt -config > /var/folders/8q/8kg6dnyj0317_y7lhxbzkpdh0000gn/T/dune_0f7e45_output
+$ /Users/kevinj_angulo/.opam/5.1.1/bin/ocamlc.opt -config > /var/folders/8q/8kg6dnyj0317_y7lhxbzkpdh0000gn/T/dune_c94481_output
 $ (cd _build/default/test && ./test_interp.exe)
-> ........................E..............E
+> .........E..............E...............E
 > ==============================================================================
-> Error: all tests:0:teams/KV2:19:test3.json:0:0.
+> Error: all tests:0:teams/KV2:20:test3.json:0:0.
 >
-> File "/Users/kevinj_angulo/Documents/Comp360H/Assignment 1/COMP-360H/_build/default/test/oUnit-all tests-Kevins-MacBook-Pro-2.local#02.log", line 152, characters 1-1:
-> Error: all tests:0:teams/KV2:19:test3.json:0:0 (in the log).
+> File "/Users/kevinj_angulo/Documents/Comp360H/Assignment 1/COMP-360H/_build/default/test/oUnit-all tests-Kevins-MacBook-Pro-2.local#01.log", line 143, characters 1-1:
+> Error: all tests:0:teams/KV2:20:test3.json:0:0 (in the log).
 >
 > Raised at Imp__Interp.Frame.vdec in file "lib/interp.ml", line 189, characters 12-41
 > Called from Stdlib__List.fold_left in file "list.ml", line 123, characters 24-34
@@ -42,10 +42,10 @@ $ (cd _build/default/test && ./test_interp.exe)
 > Imp.Interp.MultipleDeclaration("a")
 > ------------------------------------------------------------------------------
 > ==============================================================================
-> Error: all tests:0:teams/KV2:13:gcd.json:0:0.
+> Error: all tests:0:teams/KV2:14:gcd.json:0:0.
 >
-> File "/Users/kevinj_angulo/Documents/Comp360H/Assignment 1/COMP-360H/_build/default/test/oUnit-all tests-Kevins-MacBook-Pro-2.local#02.log", line 87, characters 1-1:
-> Error: all tests:0:teams/KV2:13:gcd.json:0:0 (in the log).
+> File "/Users/kevinj_angulo/Documents/Comp360H/Assignment 1/COMP-360H/_build/default/test/oUnit-all tests-Kevins-MacBook-Pro-2.local#02.log", line 95, characters 1-1:
+> Error: all tests:0:teams/KV2:14:gcd.json:0:0 (in the log).
 >
 > Raised at Imp__Interp.Frame.vdec in file "lib/interp.ml", line 189, characters 12-41
 > Called from Stdlib__List.fold_left in file "list.ml", line 123, characters 24-34
@@ -59,6 +59,23 @@ $ (cd _build/default/test && ./test_interp.exe)
 >
 > Imp.Interp.MultipleDeclaration("r")
 > ------------------------------------------------------------------------------
-> Ran: 40 tests in: 0.15 seconds.
-> FAILED: Cases: 40 Tried: 40 Errors: 2 Failures: 0 Skip:  0 Todo: 0 Timeouts: 0.
+> ==============================================================================
+> Error: all tests:0:teams/KV2:6:2functions.json:0:0.
+>
+> File "/Users/kevinj_angulo/Documents/Comp360H/Assignment 1/COMP-360H/_build/default/test/oUnit-all tests-Kevins-MacBook-Pro-2.local#02.log", line 31, characters 1-1:
+> Error: all tests:0:teams/KV2:6:2functions.json:0:0 (in the log).
+>
+> Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+> Called from Imp__Interp.eval in file "lib/interp.ml", line 257, characters 11-35
+> Called from Imp__Interp.exec_stm in file "lib/interp.ml", line 307, characters 25-39
+> Called from Stdlib__List.fold_left in file "list.ml", line 123, characters 24-34
+> Called from Imp__Interp.eval in file "lib/interp.ml", line 287, characters 36-66
+> Called from Imp__Interp.exec in file "lib/interp.ml", line 343, characters 12-55
+> Called from Dune__exe__Test_interp.make_test_from_json_spec in file "test/test_interp.ml", line 97, characters 12-37
+> Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+>
+> Failure("Frame.vupdate applied to a non-environment frame")
+> ------------------------------------------------------------------------------
+> Ran: 41 tests in: 0.15 seconds.
+> FAILED: Cases: 41 Tried: 41 Errors: 3 Failures: 0 Skip:  0 Todo: 0 Timeouts: 0.
 [1]

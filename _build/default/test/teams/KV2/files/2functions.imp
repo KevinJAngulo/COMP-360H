@@ -1,0 +1,11 @@
+function main(){
+    var y;
+    y = sum(2, 4);
+
+    print_int(y);
+    return;
+}
+
+function sum(a,b){
+    return a + b;
+}

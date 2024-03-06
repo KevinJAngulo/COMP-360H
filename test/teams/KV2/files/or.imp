@@ -2,7 +2,7 @@ function main() {
   var a = false;
   var b= true ;
 
-   print_bool(a||b) ;
+  print_bool(a||b) ;
 
 
   return ;
