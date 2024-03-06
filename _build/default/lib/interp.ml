@@ -29,6 +29,8 @@ exception UndefinedFunction of Ast.Id.t
  *)
 exception TypeError of string
 
+exception ReturnFrameInvdec
+
 (* Values.
  *)
 module Value = struct
@@ -173,12 +175,12 @@ module Api = struct
 
 end
 
+
 module Frame = struct
   type env = (Ast.Id.t * Value.t) list
   type t = 
     | Env of env list
-    | Value of Value.t
-    | Return of Value.t  (* Add this variant to handle return values *)
+    | Return of Value.t 
 
   let vdec (frame : t) (x : Ast.Id.t) (v : Value.t) : t =
     match frame with
@@ -198,11 +200,28 @@ module Frame = struct
           with Not_found -> vlookup (Env rest) x
         end
     | _ -> failwith "Frame.vlookup applied to a non-environment frame"
+  let rec vupdate (frame : t) (x : Ast.Id.t) (v : Value.t) : t =
+    match frame with
+    | Env [] -> raise (UnboundVariable x) (* If the environment is empty, the variable is unbound *)
+    | Env (env :: rest) ->
+        if List.mem_assoc x env then
+          (* If the variable is found in the current environment, update its value *)
+          Env ((List.map (fun (key, value) -> if key = x then (key, v) else (key, value)) env) :: rest)
+        else
+          (* If the variable is not found in the current environment, try updating in the outer environment *)
+          let updated_rest = match vupdate (Env rest) x v with
+            | Env updated_envs -> updated_envs
+            | _ -> failwith "Unexpected frame type encountered during update"
+          in
+          Env (env :: updated_rest)
+    | _ -> failwith "Frame.vupdate applied to a non-environment frame"
+    
   let return (frame : t) (v : Value.t) : t =
     match frame with
-    | Env _ -> Return v  (* Since 'envs' is not used, replace it with '_' *)
+    | Env _ -> Return v 
     | _ -> failwith "Frame.return applied to a non-environment frame"
   end
+
 
 (* expressions *)
 let binop (op : E.binop) (v : Value.t) (v' : Value.t) : Value.t =
@@ -211,7 +230,7 @@ let binop (op : E.binop) (v : Value.t) (v' : Value.t) : Value.t =
   | (E.Minus, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n - n')
   | (E.Times, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n * n')
   | (E.Div, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n / n')
-  | (E.Mod, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n mod n')  (* Fixed mod operator for integers *)
+  | (E.Mod, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n mod n')    (* Mod operator for integers *)
   | (E.And, Value.V_Bool b, Value.V_Bool b') -> Value.V_Bool (b && b')  (* Logical AND for booleans *)
   | (E.Or, Value.V_Bool b, Value.V_Bool b') -> Value.V_Bool (b || b')   (* Logical OR for booleans, corrected *)
   | (E.Eq, Value.V_Int n, Value.V_Int n') -> Value.V_Bool (n = n')      (* Equality check for integers *)
@@ -247,29 +266,8 @@ let rec eval (frame : Frame.t) (e : E.t)(p : Ast.Program.t) : Value.t * Frame.t 
       (match v with
        | Value.V_Int n -> (Value.V_Int (-n), frame')
        | _ -> failwith "TypeError: Neg operation requires an integer")
-(*  | E.Call (f_name, args) ->
-      match p with
-    | Ast.Program.Pgm fundefs ->
-        let func_opt = List.find_opt (fun (Ast.Program.FunDef (name, _, _)) -> name = f_name) fundefs in
-          match func_opt with
-          | Some (Ast.Program.FunDef (_, param_names, body)) ->
-              let evaluated_args, new_frame = List.fold_right (fun arg (eval_args, fr) ->
-                  let arg_val, updated_frame = eval fr arg p in
-                  (arg_val :: eval_args, updated_frame)
-              ) args ([], frame) in
-              let new_env = List.combine param_names evaluated_args in
-              let body_frame =
-                match new_frame with
-                | Frame.Env envs -> Frame.Env (new_env :: envs)
-                | _ -> failwith "Expected environment frame" in
-              let func_frame = exec_stmList body body_frame p;
-              (match func_frame with
-                | Frame.Return v -> (v, new_frame)
-                | _ -> (Value.V_None, new_frame))
-          | None -> raise (UndefinedFunction f_name) 
-    | _ -> failwith "Invalid program structure"*)
-    
-
+  | _ -> failwith "doesn't work"
+  
 (* Evaluate a single statement *)
   and exec_stm (stm : Ast.Stm.t) (frame : Frame.t) (p : Ast.Program.t) : Frame.t =
     match stm with
@@ -310,7 +308,6 @@ let rec eval (frame : Frame.t) (e : E.t)(p : Ast.Program.t) : Value.t * Frame.t 
         in
         Frame.return frame v
 
-
   (* Evaluate a list of statements *)
   and exec_stmList (stms : Ast.Stm.t list) (frame : Frame.t) (p : Ast.Program.t) : Frame.t =
       List.fold_left (fun fr s -> exec_stm s fr p) frame stms
@@ -319,16 +316,9 @@ let rec eval (frame : Frame.t) (e : E.t)(p : Ast.Program.t) : Value.t * Frame.t 
 (* exec p :  execute the program p according to the operational semantics
  * provided as a handout.
  *)
- let exec (p : Ast.Program.t) : unit =
-  match p with
-    | Ast.Program.Pgm fundefs ->
-        let main_func_opt = List.find_opt (fun (Ast.Program.FunDef (name, _, _)) -> name = "main") fundefs in
-        begin
-            match main_func_opt with
-            | Some(Ast.Program.FunDef (_, _, body)) ->
-                let initial_frame = Frame.Env [] in
-                ignore (exec_stmList body initial_frame p);
-                ()
-            | None -> 
-                raise (UndefinedFunction "main")
-        end
+let exec (p : Ast.Program.t) : unit =
+  let initial_frame = Frame.Env [] in
+    ignore (eval(initial_frame (E.call"main" [])) p);
+    ()
+    | None -> raise (UndefinedFunction "main")
+end

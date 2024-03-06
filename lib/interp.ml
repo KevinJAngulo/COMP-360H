@@ -177,36 +177,50 @@ end
 
 
 module Frame = struct
+  type env = (Ast.Id.t * Value.t) list
   type t = 
-    | EnvL of Env.t list
-    | ReturnFrame of Value.t
- 
+    | Env of env list
+    | Return of Value.t 
+
   let vdec (frame : t) (x : Ast.Id.t) (v : Value.t) : t =
     match frame with
-    | ReturnFrame _ -> raise ReturnFrameInvdec
-    | EnvL [] -> EnvL [Env.update Env.empty x v] (* Create a new environment with the variable binding *)
-    | EnvL (env :: rest) ->
-      let env_list = IdentMap.bindings env
-      in
-        if List.mem_assoc x env_list then
-          (* Variable already defined in the innermost environment *)
-          raise (MultipleDeclaration x)
+    | Env [] -> Env [ [(x, v)] ]
+    | Env (env :: rest) ->
+        if List.mem_assoc x env then
+            raise (MultipleDeclaration x)
         else
-          (* Add the variable binding to the innermost environment *)
-          EnvL (Env.update Env.empty x v :: env :: rest)
-  
+            Env (( (x, v) :: env) :: rest)
+    | _ -> failwith "Frame.vdec applied to a non-environment frame"
   let rec vlookup (frame : t) (x : Ast.Id.t) : Value.t =
     match frame with
-    | ReturnFrame _ -> raise (UnboundVariable x) (* Cannot lookup in a return frame *)
-    | EnvL [] -> raise (UnboundVariable x)
-    | EnvL (env :: rest) ->
-      begin
-        try
-          IdentMap.find x env
-        with Not_found ->
-          vlookup (EnvL rest) x (* Lookup in the outer environment *)
-      end
-end
+    | Env [] -> raise (UnboundVariable x)
+    | Env (env :: rest) ->
+        begin
+          try List.assoc x env
+          with Not_found -> vlookup (Env rest) x
+        end
+    | _ -> failwith "Frame.vlookup applied to a non-environment frame"
+  let rec vupdate (frame : t) (x : Ast.Id.t) (v : Value.t) : t =
+    match frame with
+    | Env [] -> raise (UnboundVariable x) (* If the environment is empty, the variable is unbound *)
+    | Env (env :: rest) ->
+        if List.mem_assoc x env then
+          (* If the variable is found in the current environment, update its value *)
+          Env ((List.map (fun (key, value) -> if key = x then (key, v) else (key, value)) env) :: rest)
+        else
+          (* If the variable is not found in the current environment, try updating in the outer environment *)
+          let updated_rest = match vupdate (Env rest) x v with
+            | Env updated_envs -> updated_envs
+            | _ -> failwith "Unexpected frame type encountered during update"
+          in
+          Env (env :: updated_rest)
+    | _ -> failwith "Frame.vupdate applied to a non-environment frame"
+    
+  let return (frame : t) (v : Value.t) : t =
+    match frame with
+    | Env _ -> Return v 
+    | _ -> failwith "Frame.return applied to a non-environment frame"
+  end
 
 
 (* expressions *)
@@ -252,7 +266,8 @@ let rec eval (frame : Frame.t) (e : E.t)(p : Ast.Program.t) : Value.t * Frame.t 
       (match v with
        | Value.V_Int n -> (Value.V_Int (-n), frame')
        | _ -> failwith "TypeError: Neg operation requires an integer")
-  | E.Call (f_name, args) ->
+  | E.Call(f, args) -> 
+      let v, frame' = eval frame e p in
   
 (* Evaluate a single statement *)
   and exec_stm (stm : Ast.Stm.t) (frame : Frame.t) (p : Ast.Program.t) : Frame.t =
@@ -303,15 +318,8 @@ let rec eval (frame : Frame.t) (e : E.t)(p : Ast.Program.t) : Value.t * Frame.t 
  * provided as a handout.
  *)
 let exec (p : Ast.Program.t) : unit =
-match p with
-  | Ast.Program.Pgm fundefs ->
-      let main_func_opt = List.find_opt (fun (Ast.Program.FunDef (name, _, _)) -> name = "main") fundefs in
-      begin
-          match main_func_opt with
-          | Some(Ast.Program.FunDef (_, _, body)) ->
-              let initial_frame = Frame.Env [] in
-              ignore (exec_stmList body initial_frame p);
-              ()
-          | None -> 
-              raise (UndefinedFunction "main")
-      end
+  let initial_frame = Frame.Env [] in
+    ignore (eval(initial_frame (E.call"main" [])) p);
+    ()
+    | None -> raise (UndefinedFunction "main")
+end
