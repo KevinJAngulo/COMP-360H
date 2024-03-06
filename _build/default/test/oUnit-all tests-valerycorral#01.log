@@ -1,0 +1,291 @@
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Start test all tests:0:teams/danner:0:00io.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-1c56c1-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Test all tests:0:teams/danner:0:00io.json:0:0 exited with an error.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Failure("Unimplemented") in test all tests:0:teams/danner:0:00io.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec_stm in file "lib/interp.ml", line 285, characters 26-40
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Stdlib__List.fold_left in file "list.ml", line 123, characters 24-34
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec in file "lib/interp.ml", line 328, characters 21-56
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Dune__exe__Test_interp.make_test_from_json_spec in file "test/test_interp.ml", line 97, characters 12-37
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2024-03-06T18:35:06+00:00 valerycorral#01 E: 
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-1c56c1-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 I: End test all tests:0:teams/danner:0:00io.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Start test all tests:0:teams/danner:1:decs.json:1:1.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-a9c955-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Test all tests:0:teams/danner:1:decs.json:1:1 exited with an error.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Failure("Unimplemented") in test all tests:0:teams/danner:1:decs.json:1:1.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec_stm in file "lib/interp.ml", line 285, characters 26-40
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Stdlib__List.fold_left in file "list.ml", line 123, characters 24-34
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec in file "lib/interp.ml", line 328, characters 21-56
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Dune__exe__Test_interp.make_test_from_json_spec in file "test/test_interp.ml", line 97, characters 12-37
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2024-03-06T18:35:06+00:00 valerycorral#01 E: 
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-a9c955-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 I: End test all tests:0:teams/danner:1:decs.json:1:1.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Start test all tests:0:teams/danner:2:gcd.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-0f4f30-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Test all tests:0:teams/danner:2:gcd.json:0:0 exited with an error.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Failure("Unimplemented") in test all tests:0:teams/danner:2:gcd.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.eval in file "lib/interp.ml", line 248, characters 22-36
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec_stm in file "lib/interp.ml", line 285, characters 26-40
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Stdlib__List.fold_left in file "list.ml", line 123, characters 24-34
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec in file "lib/interp.ml", line 328, characters 21-56
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Dune__exe__Test_interp.make_test_from_json_spec in file "test/test_interp.ml", line 97, characters 12-37
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2024-03-06T18:35:06+00:00 valerycorral#01 E: 
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-0f4f30-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 I: End test all tests:0:teams/danner:2:gcd.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Start test all tests:1:teams/KV2:0:00io.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-ada536-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Test all tests:1:teams/KV2:0:00io.json:0:0 exited with an error.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Failure("Unimplemented") in test all tests:1:teams/KV2:0:00io.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec_stm in file "lib/interp.ml", line 285, characters 26-40
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Stdlib__List.fold_left in file "list.ml", line 123, characters 24-34
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec in file "lib/interp.ml", line 328, characters 21-56
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Dune__exe__Test_interp.make_test_from_json_spec in file "test/test_interp.ml", line 97, characters 12-37
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2024-03-06T18:35:06+00:00 valerycorral#01 E: 
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-ada536-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 I: End test all tests:1:teams/KV2:0:00io.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Start test all tests:1:teams/KV2:2:function.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-45dcb7-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Expected: 
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Actual: 
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Test all tests:1:teams/KV2:2:function.json:0:0 is successful.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-45dcb7-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 I: End test all tests:1:teams/KV2:2:function.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Start test all tests:1:teams/KV2:4:plus.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-50425c-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Test all tests:1:teams/KV2:4:plus.json:0:0 exited with an error.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Failure("Unimplemented") in test all tests:1:teams/KV2:4:plus.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.eval in file "lib/interp.ml", line 248, characters 22-36
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec_stm in file "lib/interp.ml", line 285, characters 26-40
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Stdlib__List.fold_left in file "list.ml", line 123, characters 24-34
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec in file "lib/interp.ml", line 328, characters 21-56
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Dune__exe__Test_interp.make_test_from_json_spec in file "test/test_interp.ml", line 97, characters 12-37
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2024-03-06T18:35:06+00:00 valerycorral#01 E: 
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-50425c-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 I: End test all tests:1:teams/KV2:4:plus.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Start test all tests:1:teams/KV2:5:eq.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-34264e-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Test all tests:1:teams/KV2:5:eq.json:0:0 exited with an error.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Failure("Unimplemented") in test all tests:1:teams/KV2:5:eq.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.eval in file "lib/interp.ml", line 248, characters 22-36
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec_stm in file "lib/interp.ml", line 285, characters 26-40
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Stdlib__List.fold_left in file "list.ml", line 123, characters 24-34
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec in file "lib/interp.ml", line 328, characters 21-56
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Dune__exe__Test_interp.make_test_from_json_spec in file "test/test_interp.ml", line 97, characters 12-37
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2024-03-06T18:35:06+00:00 valerycorral#01 E: 
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-34264e-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 I: End test all tests:1:teams/KV2:5:eq.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Start test all tests:1:teams/KV2:5:eq.json:1:1.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-bd9a25-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Test all tests:1:teams/KV2:5:eq.json:1:1 exited with an error.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Failure("Unimplemented") in test all tests:1:teams/KV2:5:eq.json:1:1.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.eval in file "lib/interp.ml", line 248, characters 22-36
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec_stm in file "lib/interp.ml", line 285, characters 26-40
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Stdlib__List.fold_left in file "list.ml", line 123, characters 24-34
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec in file "lib/interp.ml", line 328, characters 21-56
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Dune__exe__Test_interp.make_test_from_json_spec in file "test/test_interp.ml", line 97, characters 12-37
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2024-03-06T18:35:06+00:00 valerycorral#01 E: 
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-bd9a25-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 I: End test all tests:1:teams/KV2:5:eq.json:1:1.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Start test all tests:1:teams/KV2:7:whilskip.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-ffcbab-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Test all tests:1:teams/KV2:7:whilskip.json:0:0 exited with an error.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Failure("Unimplemented") in test all tests:1:teams/KV2:7:whilskip.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.eval in file "lib/interp.ml", line 248, characters 22-36
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec_stm in file "lib/interp.ml", line 285, characters 26-40
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Stdlib__List.fold_left in file "list.ml", line 123, characters 24-34
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec in file "lib/interp.ml", line 328, characters 21-56
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Dune__exe__Test_interp.make_test_from_json_spec in file "test/test_interp.ml", line 97, characters 12-37
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2024-03-06T18:35:06+00:00 valerycorral#01 E: 
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-ffcbab-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 I: End test all tests:1:teams/KV2:7:whilskip.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Start test all tests:1:teams/KV2:8:gthan.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-fc44e5-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Test all tests:1:teams/KV2:8:gthan.json:0:0 exited with an error.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Failure("Unimplemented") in test all tests:1:teams/KV2:8:gthan.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.eval in file "lib/interp.ml", line 248, characters 22-36
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec_stm in file "lib/interp.ml", line 285, characters 26-40
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Stdlib__List.fold_left in file "list.ml", line 123, characters 24-34
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec in file "lib/interp.ml", line 328, characters 21-56
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Dune__exe__Test_interp.make_test_from_json_spec in file "test/test_interp.ml", line 97, characters 12-37
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2024-03-06T18:35:06+00:00 valerycorral#01 E: 
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-fc44e5-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 I: End test all tests:1:teams/KV2:8:gthan.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Start test all tests:1:teams/KV2:9:sub.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-c6d474-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Test all tests:1:teams/KV2:9:sub.json:0:0 exited with an error.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Failure("Unimplemented") in test all tests:1:teams/KV2:9:sub.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.eval in file "lib/interp.ml", line 248, characters 22-36
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec_stm in file "lib/interp.ml", line 285, characters 26-40
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Stdlib__List.fold_left in file "list.ml", line 123, characters 24-34
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec in file "lib/interp.ml", line 328, characters 21-56
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Dune__exe__Test_interp.make_test_from_json_spec in file "test/test_interp.ml", line 97, characters 12-37
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2024-03-06T18:35:06+00:00 valerycorral#01 E: 
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-c6d474-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 I: End test all tests:1:teams/KV2:9:sub.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Start test all tests:1:teams/KV2:9:sub.json:2:2.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-e4e9e1-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Test all tests:1:teams/KV2:9:sub.json:2:2 exited with an error.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Failure("Unimplemented") in test all tests:1:teams/KV2:9:sub.json:2:2.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.eval in file "lib/interp.ml", line 248, characters 22-36
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec_stm in file "lib/interp.ml", line 285, characters 26-40
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Stdlib__List.fold_left in file "list.ml", line 123, characters 24-34
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec in file "lib/interp.ml", line 328, characters 21-56
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Dune__exe__Test_interp.make_test_from_json_spec in file "test/test_interp.ml", line 97, characters 12-37
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2024-03-06T18:35:06+00:00 valerycorral#01 E: 
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-e4e9e1-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 I: End test all tests:1:teams/KV2:9:sub.json:2:2.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Start test all tests:1:teams/KV2:11:decs.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-043b2d-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Expected: 
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Actual: 
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Test all tests:1:teams/KV2:11:decs.json:0:0 is successful.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-043b2d-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 I: End test all tests:1:teams/KV2:11:decs.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Start test all tests:1:teams/KV2:12:div.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-fd15c3-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Test all tests:1:teams/KV2:12:div.json:0:0 exited with an error.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Failure("Unimplemented") in test all tests:1:teams/KV2:12:div.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.eval in file "lib/interp.ml", line 248, characters 22-36
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec_stm in file "lib/interp.ml", line 285, characters 26-40
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Stdlib__List.fold_left in file "list.ml", line 123, characters 24-34
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec in file "lib/interp.ml", line 328, characters 21-56
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Dune__exe__Test_interp.make_test_from_json_spec in file "test/test_interp.ml", line 97, characters 12-37
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2024-03-06T18:35:06+00:00 valerycorral#01 E: 
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-fd15c3-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 I: End test all tests:1:teams/KV2:12:div.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Start test all tests:1:teams/KV2:13:gcd.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-ea8498-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Test all tests:1:teams/KV2:13:gcd.json:0:0 exited with an error.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Failure("Unimplemented") in test all tests:1:teams/KV2:13:gcd.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.eval in file "lib/interp.ml", line 248, characters 22-36
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec_stm in file "lib/interp.ml", line 285, characters 26-40
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Stdlib__List.fold_left in file "list.ml", line 123, characters 24-34
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec in file "lib/interp.ml", line 328, characters 21-56
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Dune__exe__Test_interp.make_test_from_json_spec in file "test/test_interp.ml", line 97, characters 12-37
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2024-03-06T18:35:06+00:00 valerycorral#01 E: 
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-ea8498-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 I: End test all tests:1:teams/KV2:13:gcd.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Start test all tests:1:teams/KV2:13:gcd.json:2:2.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-de93bc-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Test all tests:1:teams/KV2:13:gcd.json:2:2 exited with an error.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Failure("Unimplemented") in test all tests:1:teams/KV2:13:gcd.json:2:2.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.eval in file "lib/interp.ml", line 248, characters 22-36
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec_stm in file "lib/interp.ml", line 285, characters 26-40
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Stdlib__List.fold_left in file "list.ml", line 123, characters 24-34
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec in file "lib/interp.ml", line 328, characters 21-56
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Dune__exe__Test_interp.make_test_from_json_spec in file "test/test_interp.ml", line 97, characters 12-37
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2024-03-06T18:35:06+00:00 valerycorral#01 E: 
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-de93bc-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 I: End test all tests:1:teams/KV2:13:gcd.json:2:2.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Start test all tests:1:teams/KV2:14:ltoe.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-5d5bcf-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Test all tests:1:teams/KV2:14:ltoe.json:0:0 exited with an error.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Failure("Unimplemented") in test all tests:1:teams/KV2:14:ltoe.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.eval in file "lib/interp.ml", line 248, characters 22-36
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec_stm in file "lib/interp.ml", line 285, characters 26-40
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Stdlib__List.fold_left in file "list.ml", line 123, characters 24-34
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec in file "lib/interp.ml", line 328, characters 21-56
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Dune__exe__Test_interp.make_test_from_json_spec in file "test/test_interp.ml", line 97, characters 12-37
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2024-03-06T18:35:06+00:00 valerycorral#01 E: 
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-5d5bcf-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 I: End test all tests:1:teams/KV2:14:ltoe.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Start test all tests:1:teams/KV2:14:ltoe.json:1:1.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-6987a8-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Test all tests:1:teams/KV2:14:ltoe.json:1:1 exited with an error.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Failure("Unimplemented") in test all tests:1:teams/KV2:14:ltoe.json:1:1.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.eval in file "lib/interp.ml", line 248, characters 22-36
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec_stm in file "lib/interp.ml", line 285, characters 26-40
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Stdlib__List.fold_left in file "list.ml", line 123, characters 24-34
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec in file "lib/interp.ml", line 328, characters 21-56
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Dune__exe__Test_interp.make_test_from_json_spec in file "test/test_interp.ml", line 97, characters 12-37
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2024-03-06T18:35:06+00:00 valerycorral#01 E: 
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-6987a8-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 I: End test all tests:1:teams/KV2:14:ltoe.json:1:1.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Start test all tests:1:teams/KV2:15:neg.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-51cfaf-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Test all tests:1:teams/KV2:15:neg.json:0:0 exited with an error.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Failure("Unimplemented") in test all tests:1:teams/KV2:15:neg.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.eval in file "lib/interp.ml", line 248, characters 22-36
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec_stm in file "lib/interp.ml", line 285, characters 26-40
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Stdlib__List.fold_left in file "list.ml", line 123, characters 24-34
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec in file "lib/interp.ml", line 328, characters 21-56
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Dune__exe__Test_interp.make_test_from_json_spec in file "test/test_interp.ml", line 97, characters 12-37
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2024-03-06T18:35:06+00:00 valerycorral#01 E: 
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-51cfaf-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 I: End test all tests:1:teams/KV2:15:neg.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Start test all tests:1:teams/KV2:16:while.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-1bd28d-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Test all tests:1:teams/KV2:16:while.json:0:0 exited with an error.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Failure("Unimplemented") in test all tests:1:teams/KV2:16:while.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.eval in file "lib/interp.ml", line 248, characters 22-36
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec_stm in file "lib/interp.ml", line 285, characters 26-40
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Stdlib__List.fold_left in file "list.ml", line 123, characters 24-34
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec in file "lib/interp.ml", line 328, characters 21-56
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Dune__exe__Test_interp.make_test_from_json_spec in file "test/test_interp.ml", line 97, characters 12-37
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2024-03-06T18:35:06+00:00 valerycorral#01 E: 
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-1bd28d-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 I: End test all tests:1:teams/KV2:16:while.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Start test all tests:1:teams/KV2:17:gtoe.json:1:1.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-c511d4-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Test all tests:1:teams/KV2:17:gtoe.json:1:1 exited with an error.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Failure("Unimplemented") in test all tests:1:teams/KV2:17:gtoe.json:1:1.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.eval in file "lib/interp.ml", line 248, characters 22-36
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec_stm in file "lib/interp.ml", line 285, characters 26-40
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Stdlib__List.fold_left in file "list.ml", line 123, characters 24-34
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec in file "lib/interp.ml", line 328, characters 21-56
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Dune__exe__Test_interp.make_test_from_json_spec in file "test/test_interp.ml", line 97, characters 12-37
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2024-03-06T18:35:06+00:00 valerycorral#01 E: 
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-c511d4-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 I: End test all tests:1:teams/KV2:17:gtoe.json:1:1.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Start test all tests:1:teams/KV2:18:mult.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-80fdfa-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Test all tests:1:teams/KV2:18:mult.json:0:0 exited with an error.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Failure("Unimplemented") in test all tests:1:teams/KV2:18:mult.json:0:0.
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.eval in file "lib/interp.ml", line 248, characters 22-36
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec_stm in file "lib/interp.ml", line 285, characters 26-40
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Stdlib__List.fold_left in file "list.ml", line 123, characters 24-34
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Imp__Interp.exec in file "lib/interp.ml", line 328, characters 21-56
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from Dune__exe__Test_interp.make_test_from_json_spec in file "test/test_interp.ml", line 97, characters 12-37
+2024-03-06T18:35:06+00:00 valerycorral#01 E: Called from OUnitRunner.run_one_test.(fun) in file "src/lib/ounit2/advanced/oUnitRunner.ml", line 83, characters 13-26
+2024-03-06T18:35:06+00:00 valerycorral#01 E: 
+2024-03-06T18:35:06+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_5e831c_dune/ounit-80fdfa-valerycorral#01.txt".
+2024-03-06T18:35:06+00:00 valerycorral#01 I: End test all tests:1:teams/KV2:18:mult.json:0:0.
