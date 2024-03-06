@@ -173,6 +173,7 @@ module Api = struct
 
 end
 
+exception ReturnFrameInvdec
 module Frame = struct
   (* The type of frames
    *)
@@ -182,7 +183,7 @@ module Frame = struct
     
   let vdec (frame : t) (x : Ast.Id.t) (v : Value.t) : t =
     match frame with
-    | ReturnFrame n -> raise (ReturnFrameInvdec n)
+    | ReturnFrame n -> raise ReturnFrameInvdec
     | EnvL [] -> EnvL [Env.update Env.empty x v] (* Create a new environment with the variable binding *)
     | EnvL env :: rest ->
       if List.mem_assoc x env then
