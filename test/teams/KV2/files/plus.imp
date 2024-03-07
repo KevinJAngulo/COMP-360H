@@ -5,11 +5,11 @@ function main() {
 
   a = prompt_int("Enter a: ") ;
   b = prompt_int("Enter b: ") ;
-  
-  a = a+b;
-  
+  add(a,b);
 
-  print_int(a) ;
+}
 
-  return ;
+function add(a,b){
+  print_int(a+b);
+  return;
 }
