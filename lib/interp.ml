@@ -175,7 +175,7 @@
  
  end
  
-module Frame = struct
+ module Frame = struct
   type env = (Ast.Id.t * Value.t) list
   type t = 
     | Env of env list
@@ -190,6 +190,7 @@ module Frame = struct
         else
             Env (( (x, v) :: env) :: rest)
     | _ -> failwith "Frame.vdec applied to a non-environment frame"
+
   let rec vlookup (frame : t) (x : Ast.Id.t) : Value.t =
     match frame with
     | Env [] -> raise (UnboundVariable x)
@@ -199,9 +200,10 @@ module Frame = struct
           with Not_found -> vlookup (Env rest) x
         end
     | _ -> failwith "Frame.vlookup applied to a non-environment frame"
-  let rec vupdate (frame : t) (x : Ast.Id.t) (v : Value.t) : t =
+
+  let rec vupdate (frame: t) (x: Ast.Id.t) (v: Value.t): t =
     match frame with
-    | Env [] -> raise (UnboundVariable x) (* If the environment is empty, the variable is unbound *)
+    | Env [] -> raise (UnboundVariable x)  (* If the environment is empty, the variable is unbound *)
     | Env (env :: rest) ->
         if List.mem_assoc x env then
           (* If the variable is found in the current environment, update its value *)
@@ -210,15 +212,16 @@ module Frame = struct
           (* If the variable is not found in the current environment, try updating in the outer environment *)
           let updated_rest = match vupdate (Env rest) x v with
             | Env updated_envs -> updated_envs
-            | _ -> failwith "Unexpected frame type encountered during update"
+            | _ -> rest  (* Keep the outer environments as they were if update was not possible *)
           in
           Env (env :: updated_rest)
-    | _ -> failwith "Frame.vupdate applied to a non-environment frame"
-    
+    | Return _ -> frame  (* Allow updates to propagate back through return frames *)
+
   let return (frame : t) (v : Value.t) : t =
     match frame with
     | Env _ -> Return v 
-    | _ -> Return V_None
+    | _ -> failwith "Frame.return applied to a non-environment frame"
+
   let new_env (frame: t): t = 
     match frame with
     | Env envs -> Env ([] :: envs)  (* Add a new, empty environment on top *)
@@ -229,6 +232,7 @@ module Frame = struct
     | Env (_ :: rest) -> Env rest  (* Remove the top environment, returning to the previous one *)
     | _ -> failwith "discard_env applied to a non-environment frame or empty frame"
 end
+
  
  
  (* expressions *)
@@ -293,8 +297,8 @@ end
                    ) args ([], frame) in
                    let new_env = List.combine param_names evaluated_args in
                    let body_frame = Frame.Env ([new_env] @ match new_frame with Frame.Env envs -> envs | _ -> []) in
-                   let func_frame = exec_stmList body body_frame p in
-                   (Value.V_None, func_frame)  (* Assuming no value returned by function bodies *)
+                   let result, func_frame = eval body body_frame p in
+                   (result, Frame.return func_frame result)  (* Assuming no value returned by function bodies *)
                | None -> raise (UndefinedFunction f_name)
              end
        end

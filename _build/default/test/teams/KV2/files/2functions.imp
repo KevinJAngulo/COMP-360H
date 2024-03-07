@@ -1,7 +1,7 @@
 function main(){
     var y;
-    print_int(sum(2, 4));
-
+    y = sum(2, 4);
+    print_int(y);
 
     
     return;
