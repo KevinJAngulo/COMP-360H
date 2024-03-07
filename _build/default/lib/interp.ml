@@ -175,7 +175,7 @@
  
  end
  
- module Frame = struct
+module Frame = struct
   type env = (Ast.Id.t * Value.t) list
   type t = 
     | Env of env list
@@ -190,7 +190,6 @@
         else
             Env (( (x, v) :: env) :: rest)
     | _ -> failwith "Frame.vdec applied to a non-environment frame"
-
   let rec vlookup (frame : t) (x : Ast.Id.t) : Value.t =
     match frame with
     | Env [] -> raise (UnboundVariable x)
@@ -200,28 +199,25 @@
           with Not_found -> vlookup (Env rest) x
         end
     | _ -> failwith "Frame.vlookup applied to a non-environment frame"
-
   let rec vupdate (frame: t) (x: Ast.Id.t) (v: Value.t): t =
-    match frame with
-    | Env [] -> raise (UnboundVariable x)  (* If the environment is empty, the variable is unbound *)
-    | Env (env :: rest) ->
-        if List.mem_assoc x env then
-          (* If the variable is found in the current environment, update its value *)
-          Env ((List.map (fun (key, value) -> if key = x then (key, v) else (key, value)) env) :: rest)
-        else
-          (* If the variable is not found in the current environment, try updating in the outer environment *)
-          let updated_rest = match vupdate (Env rest) x v with
-            | Env updated_envs -> updated_envs
-            | _ -> rest  (* Keep the outer environments as they were if update was not possible *)
-          in
-          Env (env :: updated_rest)
-    | Return _ -> frame  (* Allow updates to propagate back through return frames *)
-
+  match frame with
+  | Env [] -> raise (UnboundVariable x)  (* If the environment is empty, the variable is unbound *)
+  | Env (env :: rest) ->
+      if List.mem_assoc x env then
+        (* If the variable is found in the current environment, update its value *)
+        Env ((List.map (fun (key, value) -> if key = x then (key, v) else (key, value)) env) :: rest)
+      else
+        (* If the variable is not found in the current environment, try updating in the outer environment *)
+        let updated_rest = match vupdate (Env rest) x v with
+          | Env updated_envs -> updated_envs
+          | _ -> rest  (* Keep the outer environments as they were if update was not possible *)
+        in
+        Env (env :: updated_rest)
+  | Return _ -> frame  
   let return (frame : t) (v : Value.t) : t =
     match frame with
     | Env _ -> Return v 
     | _ -> failwith "Frame.return applied to a non-environment frame"
-
   let new_env (frame: t): t = 
     match frame with
     | Env envs -> Env ([] :: envs)  (* Add a new, empty environment on top *)
@@ -232,7 +228,6 @@
     | Env (_ :: rest) -> Env rest  (* Remove the top environment, returning to the previous one *)
     | _ -> failwith "discard_env applied to a non-environment frame or empty frame"
 end
-
  
  
  (* expressions *)
@@ -279,19 +274,29 @@ end
         | Value.V_Int n -> (Value.V_Int (-n), frame')
         | _ -> failwith "TypeError: Neg operation requires an integer")
    | E.Call (f_name, args) ->
-    begin
-      match List.find_opt (fun (Ast.Program.FunDef (name, _, _)) -> name = f_name) (match p with Ast.Program.Pgm fundefs -> fundefs) with
-      | Some (Ast.Program.FunDef (_, param_names, body)) ->
-          let evaluated_args, _ = List.fold_right (fun arg (acc_args, fr) ->
-              let arg_value, updated_frame = eval frame arg p in
-              (arg_value :: acc_args, updated_frame)
-          ) args ([], frame) in
-          let new_env = List.combine param_names evaluated_args in
-          let body_frame = Frame.Env ([new_env] @ match frame with Frame.Env envs -> envs | _ -> []) in
-          let result, _ = eval body_frame (E.Block body) p in
-          (result, Frame.return frame result)  (* Update to create a return frame with evaluated function result *)
-      | None -> raise (UndefinedFunction f_name)
-    end
+     begin
+       try
+         let api_function = Api.do_call f_name (List.map (fun arg -> let value, _ = eval frame arg p in value) args) in
+         (api_function, frame)
+       with
+       | Api.ApiError _ ->
+         match p with
+         | Ast.Program.Pgm fundefs ->
+             let fun_opt = List.find_opt (fun (Ast.Program.FunDef (name, _, _)) -> name = f_name) fundefs in
+             begin
+               match fun_opt with
+               | Some(Ast.Program.FunDef (_, param_names, body)) ->
+                   let evaluated_args, new_frame = List.fold_right (fun arg (acc_args, fr) ->
+                       let arg_value, updated_frame = eval fr arg p in
+                       (arg_value :: acc_args, updated_frame)
+                   ) args ([], frame) in
+                   let new_env = List.combine param_names evaluated_args in
+                   let body_frame = Frame.Env ([new_env] @ match new_frame with Frame.Env envs -> envs | _ -> []) in
+                   let func_frame = exec_stmList body body_frame p in
+                   (Value.V_None, func_frame)  (* Assuming no value returned by function bodies *)
+               | None -> raise (UndefinedFunction f_name)
+             end
+       end
    
  (* Evaluate a single statement *)
 and exec_stm (stm : Ast.Stm.t) (frame : Frame.t) (p : Ast.Program.t) : Frame.t =
