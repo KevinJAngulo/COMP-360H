@@ -227,11 +227,17 @@ module Frame = struct
     match frame with
     | Env (_ :: rest) -> Env rest  (* Remove the top environment, returning to the previous one *)
     | _ -> failwith "discard_env applied to a non-environment frame or empty frame"
+
+  let extract_return_value (frame: t): Value.t option =
+    match frame with
+    | Return v -> Some v
+    | _ -> None  (* or appropriate handling for non-return frames *)
+
 end
  
  
  (* expressions *)
- let binop (op : E.binop) (v : Value.t) (v' : Value.t) : Value.t =
+let binop (op : E.binop) (v : Value.t) (v' : Value.t) : Value.t =
    match (op, v, v') with
    | (E.Plus, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n + n')
    | (E.Minus, Value.V_Int n, Value.V_Int n') -> Value.V_Int (n - n')
@@ -273,30 +279,34 @@ end
        (match v with
         | Value.V_Int n -> (Value.V_Int (-n), frame')
         | _ -> failwith "TypeError: Neg operation requires an integer")
-   | E.Call (f_name, args) ->
-     begin
-       try
-         let api_function = Api.do_call f_name (List.map (fun arg -> let value, _ = eval frame arg p in value) args) in
-         (api_function, frame)
-       with
-       | Api.ApiError _ ->
-         match p with
-         | Ast.Program.Pgm fundefs ->
-             let fun_opt = List.find_opt (fun (Ast.Program.FunDef (name, _, _)) -> name = f_name) fundefs in
-             begin
-               match fun_opt with
-               | Some(Ast.Program.FunDef (_, param_names, body)) ->
-                   let evaluated_args, new_frame = List.fold_right (fun arg (acc_args, fr) ->
-                       let arg_value, updated_frame = eval fr arg p in
-                       (arg_value :: acc_args, updated_frame)
-                   ) args ([], frame) in
-                   let new_env = List.combine param_names evaluated_args in
-                   let body_frame = Frame.Env ([new_env] @ match new_frame with Frame.Env envs -> envs | _ -> []) in
-                   let func_frame = exec_stmList body body_frame p in
-                   (Value.V_None, func_frame)  (* Assuming no value returned by function bodies *)
-               | None -> raise (UndefinedFunction f_name)
-             end
-       end
+    | E.Call (f_name, args) ->
+      begin
+        try
+          let api_function = Api.do_call f_name (List.map (fun arg -> let value, _ = eval frame arg p in value) args) in
+          (api_function, frame)
+        with
+        | Api.ApiError _ ->
+          match p with
+          | Ast.Program.Pgm fundefs ->
+              let fun_opt = List.find_opt (fun (Ast.Program.FunDef (name, _, _)) -> name = f_name) fundefs in
+              begin
+                match fun_opt with
+                | Some(Ast.Program.FunDef (_, param_names, body)) ->
+                    let evaluated_args = List.map (fun arg -> fst (eval frame arg p)) args in
+                    let new_frame = Frame.new_env frame in  (* Create a new environment frame *)
+                    let new_frame_with_params = List.fold_left2 (fun fr param arg_val -> Frame.vdec fr param arg_val) new_frame param_names evaluated_args in
+                    let final_frame = exec_stmList body new_frame_with_params p in  (* Execute the function body *)
+                    (match Frame.extract_return_value final_frame with
+                    | Some v -> (v, frame)  (* Return the value from the function, keeping the original frame intact *)
+                    | None -> (Value.V_None, frame))  (* In case there is no return value *)
+                | None -> raise (UndefinedFunction f_name)
+              end
+      end
+        
+      
+    
+    
+        
    
  (* Evaluate a single statement *)
 and exec_stm (stm : Ast.Stm.t) (frame : Frame.t) (p : Ast.Program.t) : Frame.t =

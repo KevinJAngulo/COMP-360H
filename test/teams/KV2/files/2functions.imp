@@ -1,9 +1,6 @@
 function main(){
-    var y;
-    y = sum(2, 4);
-    print_int(y);
 
-    
+    print_int(sum(2,4));
     return;
 }
 
