@@ -218,8 +218,17 @@ module Frame = struct
   let return (frame : t) (v : Value.t) : t =
     match frame with
     | Env _ -> Return v 
-    | _ -> failwith "Frame.return applied to a non-environment frame"
-  end
+    | _ -> Return V_None
+  let new_env (frame: t): t = 
+    match frame with
+    | Env envs -> Env ([] :: envs)  (* Add a new, empty environment on top *)
+    | _ -> failwith "new_env applied to a non-environment frame"
+
+  let discard_env (frame: t): t = 
+    match frame with
+    | Env (_ :: rest) -> Env rest  (* Remove the top environment, returning to the previous one *)
+    | _ -> failwith "discard_env applied to a non-environment frame or empty frame"
+end
  
  
  (* expressions *)
@@ -291,44 +300,47 @@ module Frame = struct
        end
    
  (* Evaluate a single statement *)
- and exec_stm (stm : Ast.Stm.t) (frame : Frame.t) (p : Ast.Program.t) : Frame.t =
-   match stm with
-     | S.Skip -> 
-         frame  (* Do nothing and return the current frame *)
-     | S.VarDec decls ->
-         List.fold_left (fun fr (x, opt_e) ->
-           match opt_e with
-           | None -> Frame.vdec fr x Value.V_Undefined  (* Declare uninitialized variable *)
-           | Some e ->
-               let v, fr' = eval fr e p in  (* Evaluate the initialization expression *)
-               Frame.vdec fr' x v  (* Update the frame with the new variable value *)
-         ) frame decls
-     | S.Expr e ->
-         let _, frame' = eval frame e p in  (* Evaluate the expression, but only use the updated frame *)
-         frame'
-     | S.Block stms ->
-         exec_stmList stms frame p  (* Execute a list of statements *)
-     | S.If (e, s1, s2) ->
-         let v, frame' = eval frame e p in  (* Evaluate the condition *)
-         (match v with
-         | Value.V_Bool true -> exec_stm s1 frame' p  (* Execute the 'then' branch *)
-         | Value.V_Bool false -> exec_stm s2 frame' p  (* Execute the 'else' branch *)
-         | _ -> failwith "TypeError: If condition is not boolean"
-         )
-     | S.While (e, s) ->
-         let rec loop fr =
-           let v, fr' = eval fr e p in  (* Evaluate the condition within the loop *)
-           match v with
-           | Value.V_Bool true -> loop (exec_stm s fr' p)  (* Continue the loop if condition is true *)
-           | Value.V_Bool false -> fr'  (* Exit the loop if condition is false *)
-           | _ -> failwith "TypeError: While condition is not boolean"
-         in loop frame
-     | S.Return opt_e ->
-       let v = match opt_e with
-         | None -> Value.V_None
-         | Some e -> fst (eval frame e p)
-       in
-       Frame.return frame v
+and exec_stm (stm : Ast.Stm.t) (frame : Frame.t) (p : Ast.Program.t) : Frame.t =
+  match stm with
+    | S.Skip -> 
+        frame  (* Do nothing and return the current frame *)
+    | S.VarDec decls ->
+        List.fold_left (fun fr (x, opt_e) ->
+          match opt_e with
+          | None -> Frame.vdec fr x Value.V_Undefined  (* Declare uninitialized variable *)
+          | Some e ->
+              let v, fr' = eval fr e p in  (* Evaluate the initialization expression *)
+              Frame.vdec fr' x v  (* Update the frame with the new variable value *)
+        ) frame decls
+    | S.Expr e ->
+        let _, frame' = eval frame e p in  (* Evaluate the expression, but only use the updated frame *)
+        frame'
+    | S.Block stms ->
+      let new_frame = Frame.new_env frame in  (* Create a new frame/environment for the block *)
+      let final_frame = exec_stmList stms new_frame p in  (* Execute the block with the new frame *)
+      Frame.discard_env final_frame  (* Discard the new frame after the block and return the updated original frame *)
+    (* Execute a list of statements *)
+    | S.If (e, s1, s2) ->
+        let v, frame' = eval frame e p in  (* Evaluate the condition *)
+        (match v with
+        | Value.V_Bool true -> exec_stm s1 frame' p  (* Execute the 'then' branch *)
+        | Value.V_Bool false -> exec_stm s2 frame' p  (* Execute the 'else' branch *)
+        | _ -> failwith "TypeError: If condition is not boolean"
+        )
+    | S.While (e, s) ->
+        let rec loop fr =
+          let v, fr' = eval fr e p in  (* Evaluate the condition within the loop *)
+          match v with
+          | Value.V_Bool true -> loop (exec_stm s fr' p)  (* Continue the loop if condition is true *)
+          | Value.V_Bool false -> fr'  (* Exit the loop if condition is false *)
+          | _ -> failwith "TypeError: While condition is not boolean"
+        in loop frame
+    | S.Return opt_e ->
+      let v = match opt_e with
+        | None -> Value.V_None
+        | Some e -> fst (eval frame e p)
+      in
+      Frame.return frame v
  
    (* Evaluate a list of statements *)
  and exec_stmList (stms : Ast.Stm.t list) (frame : Frame.t) (p : Ast.Program.t) : Frame.t =
