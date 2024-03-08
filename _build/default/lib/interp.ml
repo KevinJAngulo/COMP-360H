@@ -1,6 +1,6 @@
 (* COMP 360H Project 1:  an interpreter for an imperative language.
  *
- * N. Danner
+ * Kevin Angulo, Valery Corral, Vicky Gong
  *)
 
  module E = Ast.Expression
@@ -180,9 +180,10 @@ module Frame = struct
   type t = 
     | Env of env list
     | Return of Value.t 
-
+  (* vdec declares a variable in a given frame with a given value *)
   let vdec (frame : t) (x : Ast.Id.t) (v : Value.t) : t =
     match frame with
+    (* goes through the list of Env declaring vars *)
     | Env [] -> Env [ [(x, v)] ]
     | Env (env :: rest) ->
         if List.mem_assoc x env then
@@ -190,6 +191,7 @@ module Frame = struct
         else
             Env (( (x, v) :: env) :: rest)
     | _ -> failwith "Frame.vdec applied to a non-environment frame"
+  (* vlookup looks up x in a given frame. Frame is a list of Env therefore we have to iterate through the list *)
   let rec vlookup (frame : t) (x : Ast.Id.t) : Value.t =
     match frame with
     | Env [] -> raise (UnboundVariable x)
@@ -199,10 +201,11 @@ module Frame = struct
           with Not_found -> vlookup (Env rest) x
         end
     | _ -> failwith "Frame.vlookup applied to a non-environment frame"
+  (* vupdate maps the new value to the variable already in the list *)
   let rec vupdate (frame: t) (x: Ast.Id.t) (v: Value.t): t =
-  match frame with
-  | Env [] -> raise (UnboundVariable x)  (* If the environment is empty, the variable is unbound *)
-  | Env (env :: rest) ->
+    match frame with
+    | Env [] -> raise (UnboundVariable x)  (* If the environment is empty, the variable is unbound *)
+    | Env (env :: rest) ->
       if List.mem_assoc x env then
         (* If the variable is found in the current environment, update its value *)
         Env ((List.map (fun (key, value) -> if key = x then (key, v) else (key, value)) env) :: rest)
@@ -214,6 +217,7 @@ module Frame = struct
         in
         Env (env :: updated_rest)
   | Return _ -> frame  
+
   let return (frame : t) (v : Value.t) : t =
     match frame with
     | Env _ -> Return v 
@@ -230,7 +234,7 @@ module Frame = struct
 
   let extract_return_value (frame: t): Value.t option =
     match frame with
-    | Return v -> Some v
+    | Return v -> Some v  (*Returns a the value given there is one *)
     | _ -> None  (* or appropriate handling for non-return frames *)
 
 end
@@ -266,10 +270,11 @@ let binop (op : E.binop) (v : Value.t) (v' : Value.t) : Value.t =
        let v1, frame1 = eval frame e1 p in
        let v2, frame2 = eval frame1 e2 p in
        (binop op v1 v2, frame2)
+       (* asigns a variable a value *)
    | E.Assign (x, e) ->
        let v, frame' = eval frame e p in
        (v, Frame.vupdate frame' x v)
-   | E.Not e ->
+   | E.Not e -> (* not of a value  *)
        let v, frame' = eval frame e p in
        (match v with
         | Value.V_Bool b -> (Value.V_Bool (not b), frame')
@@ -279,16 +284,19 @@ let binop (op : E.binop) (v : Value.t) (v' : Value.t) : Value.t =
        (match v with
         | Value.V_Int n -> (Value.V_Int (-n), frame')
         | _ -> failwith "TypeError: Neg operation requires an integer")
+
     | E.Call (f_name, args) ->
       begin
         try
+        (* check the api function and sees if the function arguments is in there *)
           let api_function = Api.do_call f_name (List.map (fun arg -> let value, _ = eval frame arg p in value) args) in
           (api_function, frame)
         with
         | Api.ApiError _ ->
+        (* if the function is not in the Api it runs the program iterating through all the functiond until it finds the one it is looking for *)
           match p with
           | Ast.Program.Pgm fundefs ->
-              let fun_opt = List.find_opt (fun (Ast.Program.FunDef (name, _, _)) -> name = f_name) fundefs in
+              let fun_opt = List.find_opt (fun (Ast.Program.FunDef (name, _, _)) -> name = f_name) fundefs in (*finds name of the function* *)
               begin
                 match fun_opt with
                 | Some(Ast.Program.FunDef (_, param_names, body)) ->

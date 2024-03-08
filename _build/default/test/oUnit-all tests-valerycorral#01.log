@@ -1,0 +1,147 @@
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Start test all tests:0:teams/KV2:0:00io.json:0:0.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-02a24e-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Expected: 5 true false fred
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Actual: 5 true false fred
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Test all tests:0:teams/KV2:0:00io.json:0:0 is successful.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-02a24e-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: End test all tests:0:teams/KV2:0:00io.json:0:0.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Start test all tests:0:teams/KV2:2:block.json:0:0.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-89289a-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Expected: 20
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Actual: 20
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Test all tests:0:teams/KV2:2:block.json:0:0 is successful.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-89289a-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: End test all tests:0:teams/KV2:2:block.json:0:0.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Start test all tests:0:teams/KV2:4:lt.json:0:0.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-78ebeb-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Expected: true
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Actual: true
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Test all tests:0:teams/KV2:4:lt.json:0:0 is successful.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-78ebeb-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: End test all tests:0:teams/KV2:4:lt.json:0:0.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Start test all tests:0:teams/KV2:5:plus.json:0:0.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-57113b-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Expected: 76
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Actual: 76
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Test all tests:0:teams/KV2:5:plus.json:0:0 is successful.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-57113b-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: End test all tests:0:teams/KV2:5:plus.json:0:0.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Start test all tests:0:teams/KV2:6:eq.json:1:1.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-e07768-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Expected: false
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Actual: false
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Test all tests:0:teams/KV2:6:eq.json:1:1 is successful.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-e07768-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: End test all tests:0:teams/KV2:6:eq.json:1:1.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Start test all tests:0:teams/KV2:7:2functions.json:0:0.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-670081-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Expected: 6
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Actual: 6
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Test all tests:0:teams/KV2:7:2functions.json:0:0 is successful.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-670081-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: End test all tests:0:teams/KV2:7:2functions.json:0:0.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Start test all tests:0:teams/KV2:8:mod.json:1:1.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-c9dd07-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Expected: 0
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Actual: 0
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Test all tests:0:teams/KV2:8:mod.json:1:1 is successful.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-c9dd07-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: End test all tests:0:teams/KV2:8:mod.json:1:1.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Start test all tests:0:teams/KV2:10:gthan.json:0:0.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-f1b651-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Expected: 50
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Actual: 50
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Test all tests:0:teams/KV2:10:gthan.json:0:0 is successful.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-f1b651-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: End test all tests:0:teams/KV2:10:gthan.json:0:0.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Start test all tests:0:teams/KV2:11:sub.json:0:0.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-467b91-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Expected: 6
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Actual: 6
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Test all tests:0:teams/KV2:11:sub.json:0:0 is successful.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-467b91-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: End test all tests:0:teams/KV2:11:sub.json:0:0.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Start test all tests:0:teams/KV2:12:and.json:0:0.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-b86b2f-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Expected: false
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Actual: false
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Test all tests:0:teams/KV2:12:and.json:0:0 is successful.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-b86b2f-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: End test all tests:0:teams/KV2:12:and.json:0:0.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Start test all tests:0:teams/KV2:13:decs.json:0:0.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-8b6509-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Expected: 
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Actual: 
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Test all tests:0:teams/KV2:13:decs.json:0:0 is successful.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-8b6509-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: End test all tests:0:teams/KV2:13:decs.json:0:0.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Start test all tests:0:teams/KV2:13:decs.json:1:1.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-5ddd2b-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Expected: 5
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Actual: 5
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Test all tests:0:teams/KV2:13:decs.json:1:1 is successful.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-5ddd2b-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: End test all tests:0:teams/KV2:13:decs.json:1:1.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Start test all tests:0:teams/KV2:14:div.json:0:0.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-127d4c-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Expected: 7
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Actual: 7
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Test all tests:0:teams/KV2:14:div.json:0:0 is successful.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-127d4c-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: End test all tests:0:teams/KV2:14:div.json:0:0.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Start test all tests:0:teams/KV2:15:gcd.json:0:0.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-eb4d19-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Expected: 12
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Actual: 12
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Test all tests:0:teams/KV2:15:gcd.json:0:0 is successful.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-eb4d19-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: End test all tests:0:teams/KV2:15:gcd.json:0:0.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Start test all tests:0:teams/KV2:15:gcd.json:2:2.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-29cd18-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Expected: 10
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Actual: 10
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Test all tests:0:teams/KV2:15:gcd.json:2:2 is successful.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-29cd18-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: End test all tests:0:teams/KV2:15:gcd.json:2:2.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Start test all tests:0:teams/KV2:16:ltoe.json:0:0.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-c5e21b-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Expected: this is true
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Actual: this is true
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Test all tests:0:teams/KV2:16:ltoe.json:0:0 is successful.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-c5e21b-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: End test all tests:0:teams/KV2:16:ltoe.json:0:0.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Start test all tests:0:teams/KV2:16:ltoe.json:2:2.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-0a1eae-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Expected: this is NOT true
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Actual: this is NOT true
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Test all tests:0:teams/KV2:16:ltoe.json:2:2 is successful.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-0a1eae-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: End test all tests:0:teams/KV2:16:ltoe.json:2:2.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Start test all tests:0:teams/KV2:17:neg.json:1:1.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-1d10c9-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Expected: 
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Actual: 
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Test all tests:0:teams/KV2:17:neg.json:1:1 is successful.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-1d10c9-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: End test all tests:0:teams/KV2:17:neg.json:1:1.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Start test all tests:0:teams/KV2:18:while.json:1:1.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-267435-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Expected: 1
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Actual: 1
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Test all tests:0:teams/KV2:18:while.json:1:1 is successful.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-267435-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: End test all tests:0:teams/KV2:18:while.json:1:1.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Start test all tests:0:teams/KV2:19:gtoe.json:1:1.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-9443a8-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Expected: false
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Actual: false
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Test all tests:0:teams/KV2:19:gtoe.json:1:1 is successful.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-9443a8-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: End test all tests:0:teams/KV2:19:gtoe.json:1:1.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Start test all tests:0:teams/KV2:20:mult.json:1:1.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Created a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-604c1f-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Expected: 50
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Actual: 50
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Test all tests:0:teams/KV2:20:mult.json:1:1 is successful.
+2024-03-08T00:06:40+00:00 valerycorral#01 I: Removed a temporary file: "/var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/build_f99ba2_dune/ounit-604c1f-valerycorral#01.txt".
+2024-03-08T00:06:40+00:00 valerycorral#01 I: End test all tests:0:teams/KV2:20:mult.json:1:1.

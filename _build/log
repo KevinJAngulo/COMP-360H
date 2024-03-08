@@ -1,10 +1,9 @@
 # dune test
 # OCAMLPARAM: unset
 # Shared cache: disabled
-# Shared cache location: /Users/kevinj_angulo/.cache/dune/db
-# Workspace root: "/Users/kevinj_angulo/Documents/Comp360H/Assignment
-# 1/COMP-360H"
-# Auto-detected concurrency: 8
+# Shared cache location: /Users/valerycorral/.cache/dune/db
+# Workspace root: /Users/valerycorral/Desktop/COMP-360H
+# Auto-detected concurrency: 4
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -15,13 +14,13 @@
 #  ; installed_env =
 #      map
 #        { "INSIDE_DUNE" :
-#            "/Users/kevinj_angulo/Documents/Comp360H/Assignment 1/COMP-360H/_build/default"
+#            "/Users/valerycorral/Desktop/COMP-360H/_build/default"
 #        ; "OCAML_COLOR" : "always"
 #        ; "OPAMCOLOR" : "always"
 #        }
 #  ; instrument_with = []
 #  }
-$ /Users/kevinj_angulo/.opam/5.1.1/bin/ocamlc.opt -config > /var/folders/8q/8kg6dnyj0317_y7lhxbzkpdh0000gn/T/dune_dd6987_output
+$ /Users/valerycorral/.opam/default/bin/ocamlc.opt -config > /var/folders/h3/dvgjnt0152sdjl9wvz2tknwr0000gn/T/dune_6a5e1f_output
 $ (cd _build/default/test && ./test_interp.exe)
 > ..........................................
 > Ran: 42 tests in: 0.15 seconds.
