@@ -260,56 +260,56 @@ let binop (op : E.binop) (v : Value.t) (v' : Value.t) : Value.t =
  
  
  (* statments *)
- let rec eval (frame : Frame.t) (e : E.t)(p : Ast.Program.t) : Value.t * Frame.t =
-   match e with
-   | E.Var x -> (Frame.vlookup frame x, frame)
-   | E.Num n -> (Value.V_Int n, frame)
-   | E.Bool b -> (Value.V_Bool b, frame)
-   | E.Str s -> (Value.V_Str s, frame)
-   | E.Binop (op, e1, e2) ->
+let rec eval (frame : Frame.t) (e : E.t)(p : Ast.Program.t) : Value.t * Frame.t =
+  match e with
+  | E.Var x -> (Frame.vlookup frame x, frame)
+  | E.Num n -> (Value.V_Int n, frame)
+  | E.Bool b -> (Value.V_Bool b, frame)
+  | E.Str s -> (Value.V_Str s, frame)
+  | E.Binop (op, e1, e2) ->
        let v1, frame1 = eval frame e1 p in
        let v2, frame2 = eval frame1 e2 p in
         (binop op v1 v2, frame2)
        (* asigns a variable a value *)
-   | E.Assign (x, e) ->
+  | E.Assign (x, e) ->
        let v, frame' = eval frame e p in
         (v, Frame.vupdate frame' x v)
-   | E.Not e -> (* not of a value  *)
+  | E.Not e -> (* not of a value  *)
        let v, frame' = eval frame e p in
        (match v with
         | Value.V_Bool b -> (Value.V_Bool (not b), frame')
         | _ -> failwith "TypeError: Not operation requires a boolean")
-   | E.Neg e ->
+  | E.Neg e ->
        let v, frame' = eval frame e p in
        (match v with
         | Value.V_Int n -> (Value.V_Int (-n), frame')
         | _ -> failwith "TypeError: Neg operation requires an integer")
 
-    | E.Call (f_name, args) ->
-      begin
-        try
-        (* check the api function and sees if the function arguments is in there *)
-          let api_function = Api.do_call f_name (List.map (fun arg -> let value, _ = eval frame arg p in value) args) in
-          (api_function, frame)
-        with
-       | Api.ApiError _ ->
+  | E.Call (f_name, args) ->
+    begin
+      try
+      (* check the api function and sees if the function arguments is in there *)
+        let api_function = Api.do_call f_name (List.map (fun arg -> let value, _ = eval frame arg p in value) args) in
+        (api_function, frame)
+      with
+      | Api.ApiError _ ->
         (* if the function is not in the Api it runs the program iterating through all the functiond until it finds the one it is looking for *)
-          match p with
-          | Ast.Program.Pgm fundefs ->
-              let fun_opt = List.find_opt (fun (Ast.Program.FunDef (name, _, _)) -> name = f_name) fundefs in (*finds name of the function* *)
-              begin
-                match fun_opt with
-                | Some(Ast.Program.FunDef (_, param_names, body)) ->
-                    let evaluated_args = List.map (fun arg -> fst (eval frame arg p)) args in
-                    let new_frame = Frame.new_env frame in  (* Create a new environment frame *)
-                    let new_frame_with_params = List.fold_left2 (fun fr param arg_val -> Frame.vdec fr param arg_val) new_frame param_names evaluated_args in
-                    let final_frame = exec_stmList body new_frame_with_params p in  (* Execute the function body *)
-                    (match Frame.extract_return_value final_frame with
-                    | Some v -> (v, frame)  (* Return the value from the function, keeping the original frame intact *)
-                    | None -> (Value.V_None, frame))  (* In case there is no return value *)
+        match p with
+        | Ast.Program.Pgm fundefs ->
+          let fun_opt = List.find_opt (fun (Ast.Program.FunDef (name, _, _)) -> name = f_name) fundefs in (*finds name of the function* *)
+            begin
+              match fun_opt with
+              | Some(Ast.Program.FunDef (_, param_names, body)) ->
+                let evaluated_args = List.map (fun arg -> fst (eval frame arg p)) args in
+                let new_frame = Frame.new_env frame in  (* Create a new environment frame *)
+                let new_frame_with_params = List.fold_left2 (fun fr param arg_val -> Frame.vdec fr param arg_val) new_frame param_names evaluated_args in
+                let final_frame = exec_stmList body new_frame_with_params p in  (* Execute the function body *)
+                (match Frame.extract_return_value final_frame with
+                | Some v -> (v, frame)  (* Return the value from the function, keeping the original frame intact *)
+                | None -> (Value.V_None, frame))  (* In case there is no return value *)
                 | None -> raise (UndefinedFunction f_name)
-              end
-      end
+            end
+     end
         
       
     
